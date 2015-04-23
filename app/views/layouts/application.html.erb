@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Whatsup</title>
+  <title>whatsup</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -10,8 +10,22 @@
 
 <p>
 
-This is where a bar to login will be! Haha
+<% if logged_in? %>
+  Welcome <%= current_user.name %> <%= button_to "Logout", action: "logout" %>
+<% else %>
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for :session, url: { action: 'login' } do |f| %>
 
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control' %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+
+      <%= f.submit "Log in", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+<% end %>
 </p>
 
 

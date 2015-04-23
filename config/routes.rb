@@ -1,18 +1,17 @@
 Rails.application.routes.draw do
+
   resources :events
-  get 'auth/signup'
-
-  get 'auth/login'
-
-  get 'users/new'
 
   resource :users
+
+  post 'users/login' => 'users#login'
+  post 'users/logout' => 'users#logout'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'auth#login'
+  root 'users#new'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
