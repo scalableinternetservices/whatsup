@@ -5,11 +5,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(article_params)
-    if @user.save
-      #
-    else
-      render :template => 'auth/signup'
+    if !@user.save
+      render :template => 'users/new'
     end
+  end
+
+  def show
+    @user = User.find(params[:id])
   end
 
   private
