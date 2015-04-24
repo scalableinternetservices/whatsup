@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   private
   
   def current_user 
-    User.find(session[:user_id]) #assumes that the logged in user ID is stored in session[:user_id] 
+      User.find(session[:user_id]) #assumes that the logged in user ID is stored in session[:user_id] 
   rescue ActiveRecord::RecordNotFound
     session[:user_id] = 123 #default user ID for now
   end

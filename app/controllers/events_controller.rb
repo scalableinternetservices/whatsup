@@ -24,10 +24,9 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @user = current_user #assumes that the logged in user ID is stored in session[:user_id], function in application_controller.rb
     @event = Event.new(event_params)
-    @event.user_id = @event.id
-    @user.events << @event #not working
+    @event.user = current_user
+    @event.save!
 
     respond_to do |format|
       if @event.save
