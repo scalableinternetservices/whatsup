@@ -11,7 +11,7 @@
 <p>
 
 <% if logged_in? %>
-  Welcome <%= current_user.name %> <%= button_to "Logout", action: "logout" %>
+  Welcome <%= current_user.name %> <%= button_to "Logout", action: "logout", controller: "users" %>
 <% else %>
   <div class="col-md-6 col-md-offset-3">
     <%= form_for :session, url: { action: 'login' } do |f| %>
