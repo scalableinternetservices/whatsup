@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 20150422085301) do
     t.decimal  "longitude",                 precision: 10, scale: 3
     t.datetime "time"
     t.text     "description", limit: 65535
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.integer  "user_id",     limit: 4
   end
 
