@@ -4,7 +4,11 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    if logged_in?
+      @events = Event.where(user_id: current_user.id)
+    else
+      redirect_to action: "new", controller: "users"
+    end
   end
 
   # GET /events/1
@@ -14,7 +18,11 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
-    @event = Event.new
+    if logged_in?
+      @event = Event.new
+    else
+      redirect_to action: "new", controller: "users"
+    end
   end
 
   # GET /events/1/edit
