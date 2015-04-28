@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 
+  skip_before_action :check_log_in, only: [:new, :create, :login]
+
   def new
     if logged_in?
       @user = current_user
