@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   def new
     if logged_in?
       @user = current_user
-      render 'show'
+      redirect_to action: 'show'
     else
       @user = User.new
     end
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(article_params)
     if !@user.save
-      render :template => 'users/new'
+      redirect_to action: "new"
     else
       log_in @user
     end
@@ -36,17 +36,17 @@ class UsersController < ApplicationController
 
     if @user && @user.authenticate(params[:session][:password])
       log_in @user
-      render 'show'
+      redirect_to action: 'show'
     else
       @user = User.new
-      render :template => 'users/new'
+      redirect_to action: 'new'
     end
   end
 
   def logout
     @user = User.new
     log_out
-    render :template => 'users/new'
+    redirect_to action: 'new'
   end
 
   private

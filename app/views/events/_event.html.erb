@@ -1,0 +1,27 @@
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>City</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Time</th>
+      <th>Description</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <% event.each do |e| %>
+    <tr>
+      <td><%= e.name %></td>
+      <td><%= e.city %></td>
+      <td><%= e.latitude %></td>
+      <td><%= e.longitude %></td>
+      <td><%= e.time %></td>
+      <td><%= e.description %></td>
+      <td><%= link_to 'Show', e %></td>
+      <td><%= link_to 'Edit', edit_event_path(e) %></td>
+      <td><%= link_to 'Destroy', e, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+</table>
