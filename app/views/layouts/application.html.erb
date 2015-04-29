@@ -16,17 +16,32 @@
 <p>
 
 <% if logged_in? %>
-  Welcome <%= current_user.name %> <%= button_to "Logout", action: "logout", controller: "users" %>
+  <div class="row">
+    <div class="col">
+      Welcome <%= current_user.name %>
+    </div> 
+    <div class="col">
+      <%= button_to "Logout", action: "logout", controller: "users" %>
+    </div>
+  </div>
 <% else %>
-  <%= form_for :session, url: { action: 'login', controller: 'users' } do |f| %>
+  <div class="row" style="background: black; height: 60px; margin: 0px">
+      <%= form_for :session, url: { action: 'login', controller: 'users' } do |f| %>
+        <div class="col-md-2 col-md-offset-6" style="color: white">
+          <%= f.label :email %>
+          <%= f.email_field :email %>
+        </div>
 
-    <%= f.label :email %>
-    <%= f.email_field :email %>
+        <div class="col-md-3" style="color: white">
+          <%= f.label :password %>
+          <%= f.password_field :password %>
+        </div>
 
-    <%= f.label :password %>
-    <%= f.password_field :password %>
-    <%= f.submit "Log in" %>
-  <% end %>
+        <div class="col-md-1" style="position: relative; top: 50%; transform: translateY(16%); right: 0%;">
+          <%= f.submit "Log in", class: "btn btn-default" %>
+        </div>
+      <% end %>
+  </div>
 <% end %>
 </p>
 
