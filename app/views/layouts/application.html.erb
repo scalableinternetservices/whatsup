@@ -15,34 +15,43 @@
 
 <p>
 
-<% if logged_in? %>
-  <div class="row">
-    <div class="col">
-      Welcome <%= current_user.name %>
-    </div> 
-    <div class="col">
-      <%= button_to "Logout", action: "logout", controller: "users" %>
+<nav style="background: black;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <%= link_to "whatsup", action: "show", controller: "users", class: "btn btn-default" %>
     </div>
+    
+    <% if logged_in? %>
+      <div class="collapse navbar-collapse" style="color: white">
+          Welcome <%= current_user.name %> 
+      </div>
+      <div class ="collapse navbar-collapse">
+        <%= button_to "Logout", action: "logout", controller: "users", class: "btn btn-default" %>
+      </div>
+    <% else %>
+      <div class="row">
+          <%= form_for :session, url: { action: 'login', controller: 'users' }, class: "navbar-form navbar-left" do |f| %>
+            <div class="form-group">
+              <%= f.label :email, style: "color: white" %>
+              <%= f.email_field :email %>
+            </div>
+    
+            <div class="form-group">
+              <%= f.label :password, style: "color: white" %>
+              <%= f.password_field :password %>
+            </div>
+    
+            <div>
+              <%= f.submit "Log in", class: "btn btn-default" %>
+            </div>
+          <% end %>
+      </div>
+    <% end %>
   </div>
-<% else %>
-  <div class="row" style="background: black; height: 60px; margin: 0px">
-      <%= form_for :session, url: { action: 'login', controller: 'users' } do |f| %>
-        <div class="col-md-2 col-md-offset-6" style="color: white">
-          <%= f.label :email %>
-          <%= f.email_field :email %>
-        </div>
+</nav>
 
-        <div class="col-md-3" style="color: white">
-          <%= f.label :password %>
-          <%= f.password_field :password %>
-        </div>
 
-        <div class="col-md-1" style="position: relative; top: 50%; transform: translateY(16%); right: 0%;">
-          <%= f.submit "Log in", class: "btn btn-default" %>
-        </div>
-      <% end %>
-  </div>
-<% end %>
+
 </p>
 
 

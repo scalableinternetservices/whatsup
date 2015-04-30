@@ -6,6 +6,11 @@ class EventsController < ApplicationController
   def index
     if logged_in?
       @events = Event.where(user_id: current_user.id)
+      @attending = Attendance.where(user_id: current_user.id)
+      @eventsAttending = []
+      for event in @attending
+        @eventsAttending.append(Event.find(event.id))
+      end
     else
       redirect_to action: "new", controller: "users"
     end
@@ -35,9 +40,10 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     @event.user = current_user
     @event.save!
+    @attend = Attendance.new(user_id: current_user.id, event_id: @event.id)
 
     respond_to do |format|
-      if @event.save
+      if @event.save && @attend.save
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else

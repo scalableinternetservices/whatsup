@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430021551) do
+ActiveRecord::Schema.define(version: 20150430022101) do
 
-  create_table "attendances", force: :cascade do |t|
-    t.integer  "user",       limit: 4
-    t.integer  "event",      limit: 4
+  create_table "Attendances", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.integer  "event_id",   limit: 4
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
   end
