@@ -22,6 +22,7 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
+    @near_me = Event.order(:time)
     if (logged_in? && params[:id].to_s != @user.id.to_s)
       redirect_to action: "show", id: @user.id
     elsif (!logged_in?)

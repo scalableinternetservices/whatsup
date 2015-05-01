@@ -1,6 +1,35 @@
 <p> 
 
-This is where the user's homepage will be! Or we will redirect from this page to the user's actual homepage!
+<h1>Events Near Me</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>City</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Time</th>
+      <th>Description</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @near_me.each do |event| %>
+      <tr>
+        <td><%= event.name %></td>
+        <td><%= event.city %></td>
+        <td><%= event.latitude %></td>
+        <td><%= event.longitude %></td>
+        <td><%= event.time %></td>
+        <td><%= event.description %></td>
+        <td><%= link_to 'Show', event %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
 
 <br />
 <%= link_to "My Events", action: "index", controller: "events" %>

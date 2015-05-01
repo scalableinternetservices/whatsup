@@ -28,7 +28,11 @@
 <p>
   <strong>Description:</strong>
   <%= @event.description %>
+  <% if @event.user == current_user %>
+  <%= link_to 'Edit', edit_event_path(@event)  %>
+  <%= link_to 'Back', events_path    %>
+  <% else %>
+  <%= link_to "Back", action: "show", controller: "users"%>
+  <% end %>
 </p>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
