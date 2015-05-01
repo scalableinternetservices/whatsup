@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   def new
     if logged_in?
       @user = current_user
-      render :action => :show
+      redirect_to action: 'show'
     end
   end
 
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     if (logged_in? && params[:id].to_s != @user.id.to_s)
       redirect_to action: "show", id: @user.id
     elsif (!logged_in?)
-      render :action => :new
+      redirect_to action: "new"
     else
       @user = User.find(params[:id])
     end
@@ -35,16 +35,16 @@ class UsersController < ApplicationController
 
     if @user && @user.authenticate(params[:session][:password])
       log_in @user
-      render :action => :show
+      redirect_to action: 'show'
     else
-      render :action => :new
+      redirect_to action: 'new'
     end
   end
 
   def logout
     @user = nil
     log_out
-    render :action => :new
+    redirect_to action: 'new'
   end
 
   private
