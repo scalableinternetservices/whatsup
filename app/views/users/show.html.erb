@@ -6,9 +6,7 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>City</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
+      <th>Location</th>
       <th>Time</th>
       <th>Description</th>
       <th colspan="3"></th>
@@ -19,12 +17,11 @@
     <% @near_me.each do |event| %>
       <tr>
         <td><%= event.name %></td>
-        <td><%= event.city %></td>
-        <td><%= event.latitude %></td>
-        <td><%= event.longitude %></td>
-        <td><%= event.time %></td>
-        <td><%= event.description %></td>
+        <td><%= event.location %></td>
+        <td><%= event.start_time %></td>
+        <td><%= truncate(strip_tags(event.description), length: 120) %></td>
         <td><%= link_to 'Show', event %></td>
+        
       </tr>
     <% end %>
   </tbody>

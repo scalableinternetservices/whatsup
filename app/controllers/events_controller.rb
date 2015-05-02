@@ -39,7 +39,6 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     @event.user = current_user
-    @event.save!
     @attend = Attendance.new(user_id: current_user.id, event_id: @event.id)
 
     respond_to do |format|
@@ -51,6 +50,21 @@ class EventsController < ApplicationController
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def attend
+      @attending = Attendance.where(user_id: current_user.id)
+      @eventsAttending = []
+      for event in @attending
+        @eventsAttending.append(Event.find(event.id))
+      end
+
+      if @eventsAttending.include?(@event.id)
+        @event.destroy
+      else
+        @attend = Attendance.new(user_id: current_user.id, event_id: @event.id)
+        @attend.save
+      end
   end
 
   # PATCH/PUT /events/1
@@ -85,6 +99,6 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:name, :city, :latitude, :longitude, :time, :description)
+      params.require(:event).permit(:name, :location, :start_time, :end_time, :description)
     end
 end

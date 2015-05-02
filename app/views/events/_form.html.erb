@@ -16,20 +16,16 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :city %><br>
-    <%= f.text_field :city %>
+    <%= f.label :location %><br>
+    <%= f.text_field :location %>
   </div>
   <div class="field">
-    <%= f.label :latitude %><br>
-    <%= f.text_field :latitude %>
+    <%= f.label :start_time %><br>
+    <%= f.datetime_select :start_time %>
   </div>
   <div class="field">
-    <%= f.label :longitude %><br>
-    <%= f.text_field :longitude %>
-  </div>
-  <div class="field">
-    <%= f.label :time %><br>
-    <%= f.datetime_select :time %>
+    <%= f.label :end_time %><br>
+    <%= f.datetime_select :end_time %>
   </div>
   <div class="field">
     <%= f.label :description %><br>

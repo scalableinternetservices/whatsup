@@ -6,28 +6,24 @@
 </p>
 
 <p>
-  <strong>City:</strong>
-  <%= @event.city %>
+  <strong>Location:</strong>
+  <%= @event.location %>
 </p>
 
 <p>
-  <strong>Latitude:</strong>
-  <%= @event.latitude %>
+  <strong>Start:</strong>
+  <%= @event.start_time %>
 </p>
 
 <p>
-  <strong>Longitude:</strong>
-  <%= @event.longitude %>
-</p>
-
-<p>
-  <strong>Time:</strong>
-  <%= @event.time %>
+  <strong>End:</strong>
+  <%= @event.end_time %>
 </p>
 
 <p>
   <strong>Description:</strong>
   <%= @event.description %>
+  <br>
   <% if @event.user == current_user %>
   <%= link_to 'Edit', edit_event_path(@event)  %>
   <%= link_to 'Back', events_path    %>
