@@ -50,3 +50,5 @@ end
 gem 'devise'
 
 gem 'validates_timeliness', '~> 3.0'
+
+gem 'faker'

@@ -6,29 +6,24 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-User.create(
-	name: 'Jane Doe',
-	email: 'test@gmail.com',
+#Documentation for Faker: http://www.rubydoc.info/github/stympy/faker/Faker
+require 'faker'
+
+number_of_events = 3
+
+User.create!(
+	name: Faker::Name.name,
+	email: Faker::Internet.safe_email(name = nil),
 	password: '123456',
 	password_confirmation: '123456'
 	)
 
-Event.create(
-	name: 'learn ruby',
-	location: 'boelter',
-	start_time: Time.now,
-	end_time: Time.now,
-  	description:
-    %{  Ruby is the fastest growing and most exciting dynamic language
-        out there. If you need to get working programs delivered fast,
-        you should add Ruby to your toolbox. }
-  )
-
-Event.create(
-	name: 'Go to Disneyland',
-	location: 'Disneyland',
+number_of_events.times do |x|
+	Event.create!(
+	name: 'Test Event' +  x.to_s,
+	location: Faker::Address.street_address(include_secondary=false),
 	start_time: Time.now,
 	end_time: Time.now, 
-  	description:
-    %{The Hill is going to Disneyland! }
+  	description: Faker::Hacker.say_something_smart
   )
+end
