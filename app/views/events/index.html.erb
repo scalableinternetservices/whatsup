@@ -1,15 +1,70 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Your Events</h1>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="panel panel-default" style="border-radius: 20px">
+        <div class="panel-heading" style="border-top-left-radius: 20px; border-top-right-radius: 20px; background: #3ADF00">
+          <h3><strong>Your Events</strong></h3>
+        </div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Attendance</th>
+                <th>Edit</th>
+                <th>Remove</th>
+              </tr>
+            </thead>
+          
+            <% @events.each do |e| %>
+              <tr>
+                <td><%= e.name %></td>
+                <td><%= e.location %></td>
+                <td><%= e.start_time %></td>
+                <td><%= e.end_time %></td>
+                <td>Not Implemented</td>
+                <td>
+                  <%= button_to edit_event_path(e), method: :get, class: "btn btn-warning" do %>
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  <% end %>
+                </td>
+                <td>
+                  <%= button_to e, method: :delete, data: { confirm: 'Are you sure you want to end this event?' }, class: "btn btn-danger" do %>
+                    <span class="glyphicon glyphicon-remove"></span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+              
+            <% if @events.count == 0 %>
+              <tr>
+                <td colspan="7" style="text-align: center; font-size: 24px">You have no events!</td>
+              </tr>
+            <% end %>
+          </table>
+          <div class="panel-body">
+            
+          </div>
+      </div>
+      <%= button_to 'Create New Event', new_event_path, method: :get, class: "btn btn-success" %>
+      <br>
+      
+	 	</div>
+  </div>
+  
+  <div class="row">
+    <div class="col">
+      <h1>Events you are Attending</h1>
+      <%= render partial: "event", object: @eventsAttending %>
+    </div>
+  </div>
+  
+</div>
 
-<%= render partial: "event", object: @events %>
 
-<br>
-
-<%= link_to 'Create New Event', new_event_path %>
-
-<h1>Events you are Attending</h1>
-
-<%= render partial: "event", object: @eventsAttending %>
 
 <br>

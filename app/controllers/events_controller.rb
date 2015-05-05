@@ -39,12 +39,18 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     @event.user = current_user
-    @attend = Attendance.new(user_id: current_user.id, event_id: @event.id)
-
+   
     respond_to do |format|
-      if @event.save && @attend.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render :show, status: :created, location: @event }
+      if @event.save 
+        @attend = Attendance.new(user_id: current_user.id, event_id: @event.id)
+        if @attend.save
+          format.html { redirect_to @event, notice: 'Event was successfully created.' }
+          format.json { render :show, status: :created, location: @event }
+        else
+          @event.destroy
+          format.html { render :new }
+          format.json { render json: @attend.errors, status: :unprocessable_entity }
+        end
       else
         format.html { render :new }
         format.json { render json: @event.errors, status: :unprocessable_entity }
@@ -84,6 +90,10 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
+    @attending = Attendance.where(event_id: @event.id)
+    for event in @attending
+      event.destroy
+    end
     @event.destroy
     respond_to do |format|
       format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }

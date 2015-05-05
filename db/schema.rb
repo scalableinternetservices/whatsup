@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150502011257) do
+ActiveRecord::Schema.define(version: 20150505080446) do
 
   create_table "attendances", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4
-    t.integer  "event_id",   limit: 4
+    t.integer  "user_id",    limit: 4, null: false
+    t.integer  "event_id",   limit: 4, null: false
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
   end
@@ -23,12 +23,12 @@ ActiveRecord::Schema.define(version: 20150502011257) do
   create_table "events", force: :cascade do |t|
     t.string   "name",        limit: 255
     t.string   "location",    limit: 255
-    t.decimal  "latitude",                  precision: 10, scale: 3
-    t.decimal  "longitude",                 precision: 10, scale: 3
+    t.decimal  "latitude",                  precision: 5, scale: 5
+    t.decimal  "longitude",                 precision: 5, scale: 5
     t.datetime "start_time"
     t.text     "description", limit: 65535
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.integer  "user_id",     limit: 4
     t.datetime "end_time"
   end
