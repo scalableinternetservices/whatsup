@@ -26,7 +26,7 @@
 </p>
 
 <p>
-  <%= image_tag "http://maps.google.com/maps/api/staticmap?size=600x300&maptype=roadmap&zoom=13&markers=%7C#{@event.latitude},#{@event.longitude}" %>
+  <%= image_tag "http://maps.google.com/maps/api/staticmap?size=600x300&maptype=roadmap&zoom=10&markers=%7C#{@event.latitude},#{@event.longitude}" %>
 </p>  
   <br>
   <% if @event.user == current_user %>

@@ -29,10 +29,6 @@ class EventsController < ApplicationController
       redirect_to action: "new", controller: "users"
     end
   end
-  
-  def near_events(la,lo,radius)
-     Event.near([la, lo], radius)
-  end
 
   # GET /events/1/edit
   def edit
