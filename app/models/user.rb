@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   
-  geocoded_by :location
-  after_validation :geocode
+  #geocoded_by :location
+  #after_validation :geocode
 
   validates :name, presence: true, length: { in: 6..50, too_long: "name is too long", too_short: "name is too short" }
    
