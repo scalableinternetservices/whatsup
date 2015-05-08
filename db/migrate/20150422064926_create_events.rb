@@ -3,8 +3,8 @@ class CreateEvents < ActiveRecord::Migration
     create_table :events do |t|
       t.string :name
       t.string :city
-      t.decimal :latitude,  :precision => 10, :scale => 3
-      t.decimal :longitude, :precision => 10, :scale => 3
+      t.decimal :latitude,  :precision => 20, :scale => 10
+      t.decimal :longitude, :precision => 20, :scale => 10
       t.timestamp :time
       t.text :description
 
