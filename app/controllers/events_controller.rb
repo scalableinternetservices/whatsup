@@ -8,8 +8,8 @@ class EventsController < ApplicationController
       @events = Event.where(user_id: current_user.id)
       @attending = Attendance.where(user_id: current_user.id)
       @eventsAttending = []
-      for event in @attending
-        @eventsAttending.append(Event.find(event.id))
+      for e in @attending
+        @eventsAttending.append(Event.find(e.event_id))
       end
     else
       redirect_to action: "new", controller: "users"
