@@ -1,16 +1,24 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  helper_method :leaveEvent
 
   # GET /events
   # GET /events.json
   def index
     if logged_in?
-      @events = Event.where(user_id: current_user.id)
+      eventList = Event.where(user_id: current_user.id)
+      @events = []
+      for event in eventList
+        count = Attendance.where(event_id: event.id).count
+        @events.append([event, count])
+      end
       @attending = Attendance.where(user_id: current_user.id)
       @eventsAttending = []
-      for e in @attending
-        @eventsAttending.append(Event.find(e.event_id))
+      for event in @attending
+        count = Attendance.where(event_id: event.event_id).count
+        @eventsAttending.append([Event.find(event.event_id), count])
       end
+      
     else
       redirect_to action: "new", controller: "users"
     end
@@ -62,19 +70,36 @@ class EventsController < ApplicationController
     end
   end
 
-  def attend
-      @attending = Attendance.where(user_id: current_user.id)
-      @eventsAttending = []
-      for event in @attending
-        @eventsAttending.append(Event.find(event.id))
-      end
-
-      if @eventsAttending.include?(@event.id)
-        @event.destroy
+  def attendEvent
+    eventList = Attendance.where(user_id: current_user.id, event_id: params[:id])
+    if (eventList.count == 1 && eventList.first.event_id == params[:id])
+      # we are already going to this event!
+      format.html { redirect_to action: 'show', controller: 'users', notice: 'You are already going to this event!' }
+    elsif (eventList.count != 0)
+      # we have an incosistency in the data table
+    else
+      # attend this event
+      event = Event.find(params[:id])
+      if (event != nil)
+        attend = Attendance.new(user_id: current_user.id, event_id: event.id)
+        if (!attend.save)
+          # could not save event to table
+        end
       else
-        @attend = Attendance.new(user_id: current_user.id, event_id: @event.id)
-        @attend.save
+        # event doesn't exist
       end
+    end
+  end
+  
+  def leaveEvent
+    eventList = Attendance.where(user_id: current_user.id, event_id: params[:id])
+    if (eventList.count != 1)
+      # we have an inconsistency in the data table
+      redirect_to action: 'show', controller: 'users'
+    else
+      eventList.first.destroy
+      redirect_to action: "index", controller: "events"
+    end
   end
 
   # PATCH/PUT /events/1
