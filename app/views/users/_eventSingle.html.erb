@@ -1,0 +1,27 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <p>
+      Name: <%= event.name %>
+    </p>
+  </div>
+  <div class="panel-body">
+    <p>
+      Location: <%= event.location %>
+    </p>
+    <p>
+      Start Time: <%= event.start_time %>
+    </p>
+    <p>
+      End Time: <%= event.end_time %>
+    </p>
+    <p>
+      Description: <%= truncate(strip_tags(event.description), length: 120) %>
+    </p>
+    <p>
+      <%= link_to 'Show', event %>
+    </p>
+    <p>
+      Comment stuff goes here!
+    </p>
+  </div>
+</div>

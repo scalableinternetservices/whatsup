@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     @user = current_user
     @result = request.location
     @near_me = Event.near([@result.latitude,@result.longitude],20)  #location by Ip address
-     
+    
     if (logged_in? && params[:id].to_s != @user.id.to_s)
       redirect_to action: "show", id: @user.id
     elsif (!logged_in?)

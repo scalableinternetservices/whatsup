@@ -1,5 +1,3 @@
-<p> 
-
 <h1>Events Near Me</h1>
 
 <p>
@@ -8,32 +6,15 @@
  <%= @result.longitude %>
 </p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Location</th>
-      <th>Time</th>
-      <th>Description</th>
-      <th>Distance(miles)</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @near_me.each do |event| %>
-      <tr>
-        <td><%= event.name %></td>
-        <td><%= event.location %></td>
-        <td><%= event.start_time %></td>
-        <td><%= truncate(strip_tags(event.description), length: 120) %></td>
-        <td><%= event.distance.round(2) %></td>
-        <td><%= link_to 'Show', event %></td>
-        
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <% @near_me .each do |e| %>
+        <%= render partial: "eventSingle", locals: { event: e } %>
+      <% end %>
+    </div>
+  </div>
+</div>
 
 
 <br />
