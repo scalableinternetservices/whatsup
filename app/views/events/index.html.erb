@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col">
       <div class="panel panel-default" style="border-radius: 20px">
-        <div class="panel-heading" style="border-top-left-radius: 20px; border-top-right-radius: 20px; background: #B8DBFF">
+        <div class="panel-heading" style="border-top-left-radius: 20px; border-top-right-radius: 20px; background: #B2FFB2">
           <h3>
             <div class="row">
               <div class="col-md-3">
@@ -31,18 +31,18 @@
         
           <% @events.each do |e| %>
             <tr>
-              <td><%= e.name %></td>
-              <td><%= e.location %></td>
-              <td><%= e.start_time %></td>
-              <td><%= e.end_time %></td>
-              <td>Not Implemented</td>
+              <td><%= e[0].name %></td>
+              <td><%= e[0].location %></td>
+              <td><%= e[0].start_time %></td>
+              <td><%= e[0].end_time %></td>
+              <td><%= e[1] %></td>
               <td>
-                <%= button_to edit_event_path(e), method: :get, class: "btn btn-warning" do %>
+                <%= button_to edit_event_path(e[0]), method: :get, class: "btn btn-warning" do %>
                   <span class="glyphicon glyphicon-pencil"></span>
                 <% end %>
               </td>
               <td>
-                <%= button_to e, method: :delete, data: { confirm: 'Are you sure you want to end this event?' }, class: "btn btn-danger" do %>
+                <%= button_to e[0], method: :delete, data: { confirm: 'Are you sure you want to end this event?' }, class: "btn btn-danger" do %>
                   <span class="glyphicon glyphicon-remove"></span>
                 <% end %>
               </td>
@@ -77,19 +77,25 @@
               <th>Start Time</th>
               <th>End Time</th>
               <th>Attendance</th>
+              <th>Show</th>
               <th>Leave</th>
             </tr>
           </thead>
         
           <% @eventsAttending.each do |e| %>
             <tr>
-              <td><%= e.name %></td>
-              <td><%= e.location %></td>
-              <td><%= e.start_time %></td>
-              <td><%= e.end_time %></td>
-              <td>Not Implemented</td>
+              <td><%= e[0].name %></td>
+              <td><%= e[0].location %></td>
+              <td><%= e[0].start_time %></td>
+              <td><%= e[0].end_time %></td>
+              <td><%= e[1] %></td>
               <td>
-                <%= button_to e, method: :delete, data: { confirm: 'Are you sure you want to end this event?' }, class: "btn btn-danger" do %>
+                <%= button_to "/events/#{e[0].id}", method: :get, class: "btn btn-success" do %>
+                  <span class="glyphicon glyphicon-menu-hamburger"></span>
+                <% end %>
+              </td>
+              <td>
+                <%= button_to "events/leaveEvent/#{e[0].id}", method: :get, data: { confirm: 'Are you sure you want to leave this event?' }, class: "btn btn-danger" do %>
                   <span class="glyphicon glyphicon-remove"></span>
                 <% end %>
               </td>
@@ -98,7 +104,7 @@
             
           <% if @eventsAttending.count == 0 %>
             <tr>
-              <td colspan="6" style="text-align: center; font-size: 24px">You aren't going to any events!</td>
+              <td colspan="7" style="text-align: center; font-size: 24px">You aren't going to any events!</td>
             </tr>
           <% end %>
         </table>
@@ -108,5 +114,4 @@
       </div>
     </div>
   </div>
-  
 </div>
