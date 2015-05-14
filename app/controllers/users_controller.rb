@@ -20,9 +20,16 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
-    @result = request.location
-    @near_me = Event.near([@result.latitude,@result.longitude],20)  #location by Ip address
+    @result = request.safe_location
     
+    if params[:search].present?
+      @near_me = Event.near(params[:search], 50)
+    else  
+      @near_me = Event.near('ucla', 50)
+      #@near_me = Event.near([@result.latitude,@result.longitude],20) 
+    end
+
+ 
     if (logged_in? && params[:id].to_s != @user.id.to_s)
       redirect_to action: "show", id: @user.id
     elsif (!logged_in?)
