@@ -20,5 +20,13 @@ module UsersHelper
     session.delete(:user_id)
     @current_user = nil
   end
+  
+  def getComments(event_id)
+    Comment.where(event_id: event_id).order(created_at: :desc)
+  end
+  
+  def isAttending(user_id, event_id)
+    Attendance.where(user_id: user_id, event_id: event_id).any?
+  end
 
 end

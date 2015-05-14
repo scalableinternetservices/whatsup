@@ -78,17 +78,23 @@ class EventsController < ApplicationController
     elsif (eventList.count != 0)
       # we have an incosistency in the data table
     else
-      # attend this event
-      event = Event.find(params[:id])
-      if (event != nil)
-        attend = Attendance.new(user_id: current_user.id, event_id: event.id)
-        if (!attend.save)
-          # could not save event to table
+    
+      respond_to do |format|
+        # attend this event
+        event = Event.find(params[:id])
+        if (event != nil)
+          attend = Attendance.new(user_id: current_user.id, event_id: event.id)
+          if (attend.save)
+            format.html { redirect_to controller: 'users', action: 'show' }
+            format.js
+            format.json { render action: 'show' }
+          end
+        else
+          # event doesn't exist
         end
-      else
-        # event doesn't exist
       end
     end
+    
   end
   
   def leaveEvent
@@ -98,7 +104,7 @@ class EventsController < ApplicationController
       redirect_to action: 'show', controller: 'users'
     else
       eventList.first.destroy
-      redirect_to action: "index", controller: "events"
+      redirect_to action: "show", controller: "users"
     end
   end
 

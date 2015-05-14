@@ -23,5 +23,35 @@
     <p>
       Comment stuff goes here!
     </p>
+    
+    <% if !isAttending(current_user.id, event.id) %>
+      <%= button_to 'Attend', { controller: 'events', action: 'attendEvent', id: event.id } %>
+    <% else %>
+      <%= button_to 'Leave', { controller: 'events', action: 'leaveEvent', id: event.id } %>
+    <% end %>
+    
+    <div class="panel-body">
+      <%= getComments(event.id) .each do |c| %>
+        <div class="row">
+          <div class="col">
+            <p>
+              User: <%= c.user_id %>
+            </p>
+            <p>
+              Text: <%= c.message %>
+            </p>
+            <p>
+              Date: <%= c.created_at %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+      <%= form_for Comment.new, url: { action: 'new' }, remote: true do |f| %>
+        <%= f.text_area :message %>
+        <%= hidden_field_tag(:event_id, event.id) %>
+        <%= hidden_field_tag(:user_id, current_user.id) %>
+        <%= f.submit 'Reply' %>
+      <% end %>
+    </div>
   </div>
 </div>
