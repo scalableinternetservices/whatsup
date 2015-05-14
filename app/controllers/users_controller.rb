@@ -25,8 +25,8 @@ class UsersController < ApplicationController
     if params[:search].present?
       @near_me = Event.near(params[:search], 50)
     else  
-      @near_me = Event.near('ucla', 50)
-      #@near_me = Event.near([@result.latitude,@result.longitude],20) 
+     # @near_me = Event.near('ucla', 50)
+      @near_me = Event.near([@result.latitude,@result.longitude],20) 
     end
 
  
