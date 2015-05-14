@@ -3,3 +3,4 @@
 /.project
 /config/initializers/secret_token.rb 
 /config/secrets.yml 
+/whatsup.pem
