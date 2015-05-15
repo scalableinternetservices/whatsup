@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
   post 'events/leaveEvent/:id' => 'events#leaveEvent'
   post 'events/attendEvent/:id' => 'events#attendEvent'
+  
+  post 'users/leaveEvent/:id' => 'users#leaveEvent'
+  post 'users/attendEvent/:id' => 'users#attendEvent'
 
   get 'users/:id', :to => 'users#show', :as => :user
 

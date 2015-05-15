@@ -1,5 +1,7 @@
 <h1>Events Near Me</h1>
 
+<div id="test">something</div>
+
 <p>
  <th>Your current location:</th>
  <%= @result.latitude %>
@@ -10,7 +12,9 @@
   <div class="row">
     <div class="col">
       <% @near_me .each do |e| %>
-        <%= render partial: "eventSingle", locals: { event: e } %>
+        <div id="event<%= e.id %>">
+          <%= render partial: "eventSingle", locals: { event: e } %>
+        </div>
       <% end %>
     </div>
   </div>

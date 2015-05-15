@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   skip_before_action :check_log_in, only: [:new, :create, :login]
+  respond_to :html, :js
 
   def new
     if logged_in?
@@ -40,6 +41,48 @@ class UsersController < ApplicationController
       redirect_to action: 'show'
     else
       redirect_to action: 'new'
+    end
+  end
+  
+  def attendEvent
+    eventList = Attendance.where(user_id: current_user.id, event_id: params[:id])
+    if (eventList.count == 1 && eventList.first.event_id == params[:id])
+      # we are already going to this event!
+      format.html { redirect_to action: 'show', controller: 'users', notice: 'You are already going to this event!' }
+    elsif (eventList.count != 0)
+      # we have an incosistency in the data table
+    else
+      # attend this event
+      event = Event.find(params[:id])
+      if (event != nil)
+        attend = Attendance.new(user_id: current_user.id, event_id: event.id)
+        if (attend.save)
+          respond_to do |format|
+            format.html
+            format.json
+            format.js { render 'reloadEvent', :locals => { :event => event } }
+          end
+        end
+      else
+        # event doesn't exist
+      end
+    end
+    
+  end
+  
+  def leaveEvent
+    eventList = Attendance.where(user_id: current_user.id, event_id: params[:id])
+    if (eventList.count != 1)
+      # we have an inconsistency in the data table
+      redirect_to action: 'show', controller: 'users'
+    else
+      event = Event.find(eventList.first.event_id)
+      eventList.first.destroy
+      respond_to do |format|
+        format.html
+        format.json
+        format.js { render 'reloadEvent', :locals => { :event => event } }
+      end
     end
   end
 

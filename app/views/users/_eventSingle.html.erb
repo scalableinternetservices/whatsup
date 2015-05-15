@@ -25,11 +25,12 @@
     </p>
     
     <% if !isAttending(current_user.id, event.id) %>
-      <%= button_to 'Attend', { controller: 'events', action: 'attendEvent', id: event.id } %>
+      <%= button_to 'Attend', { controller: 'users', action: 'attendEvent', id: event.id }, remote: true %>
     <% else %>
-      <%= button_to 'Leave', { controller: 'events', action: 'leaveEvent', id: event.id } %>
+      <%= button_to 'Leave', { controller: 'users', action: 'leaveEvent', id: event.id }, remote: true %>
     <% end %>
     
+    <!--
     <div class="panel-body">
       <%= getComments(event.id) .each do |c| %>
         <div class="row">
@@ -53,5 +54,6 @@
         <%= f.submit 'Reply' %>
       <% end %>
     </div>
+    -->
   </div>
 </div>

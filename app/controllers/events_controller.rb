@@ -74,37 +74,32 @@ class EventsController < ApplicationController
     eventList = Attendance.where(user_id: current_user.id, event_id: params[:id])
     if (eventList.count == 1 && eventList.first.event_id == params[:id])
       # we are already going to this event!
-      format.html { redirect_to action: 'show', controller: 'users', notice: 'You are already going to this event!' }
+      format.html { redirect_to action: 'index', controller: 'events', notice: 'You are already going to this event!' }
     elsif (eventList.count != 0)
       # we have an incosistency in the data table
     else
     
-      respond_to do |format|
-        # attend this event
-        event = Event.find(params[:id])
-        if (event != nil)
-          attend = Attendance.new(user_id: current_user.id, event_id: event.id)
-          if (attend.save)
-            format.html { redirect_to controller: 'users', action: 'show' }
-            format.js
-            format.json { render action: 'show' }
-          end
-        else
-          # event doesn't exist
+      # attend this event
+      event = Event.find(params[:id])
+      if (event != nil)
+        attend = Attendance.new(user_id: current_user.id, event_id: event.id)
+        if (attend.save)
         end
+      else
+        # event doesn't exist
       end
     end
-    
+    redirect_to action: "index", controller: "events"  
   end
   
   def leaveEvent
     eventList = Attendance.where(user_id: current_user.id, event_id: params[:id])
     if (eventList.count != 1)
       # we have an inconsistency in the data table
-      redirect_to action: 'show', controller: 'users'
+      redirect_to action: 'index', controller: 'events'
     else
       eventList.first.destroy
-      redirect_to action: "show", controller: "users"
+      redirect_to action: "index", controller: "events"
     end
   end
 
