@@ -8,6 +8,14 @@
  <%= @result.longitude %>
 </p>
 
+
+<%= form_tag user_path, :method => :get do %>
+  <p>
+    <%= text_field_tag :search, params[:search] %>
+    <%= submit_tag "Search Near", :name => nil %>
+<% end %>
+
+
 <div class="container">
   <div class="row">
     <div class="col">
