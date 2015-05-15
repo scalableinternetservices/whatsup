@@ -1,86 +1,85 @@
 <div class="container documents">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="row">
-      <div class="col-sm-6">
-        <h2>Hosting
-        </div>
-            <div class="col-md-4 pull-right">
-              <br> <br>
-                <%= button_to 'Create New Event', new_event_path, method: :get, class: "btn btn-success" %> 
-              </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>Hosting
+          </div>
+          <div class="col-md-4 pull-right">
+            <br> <br>
+            <%= button_to 'Create New Event', new_event_path, method: :get, class: "btn btn-success" %> 
+          </div>
         </h2>
       </div>
-        <% @events.each do |e| %>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"> <%= e[0].name %> </h3>
-          </div>
-          <div class="panel-body">
-             <%= e[0].start_time.strftime("%I:%M %p")%>
-              on 
-              <%= e[0].start_time.strftime("%A, %B, %d, %Y") %> <br>
-            <%= e[0].location %> <br>
-            Going: <%= e[1] %>
-            <div class="col-md-2 pull-right">
-              <%= button_to e[0], method: :delete, data: { confirm: 'Are you sure you want to end this event?' }, class: "btn btn-danger" do %>
-              <span class="glyphicon glyphicon-remove col-md-1"></span>
-              <% end %>
-            </div>
-            <div class="col-md-2 pull-right">
-              <%= button_to edit_event_path(e[0]), method: :get, class: "btn btn-warning" do %>
-              <span class="glyphicon glyphicon-pencil col-md-1"></span>
-              <% end %>
-            </div>
-          </div>
-        </div>          
-        <% end %>
-        
-        <% if @events.count == 0 %>
-              <li class="list-group-item">
-                You're not hosting any events!
-              </li>
-        <% end %>
-
+      <% @events.each do |e| %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"> <%= e[0].name %> </h3>
+        </div>
+        <div class="panel-body">
+         <%= e[0].start_time.strftime("%I:%M %p")%>
+         on 
+         <%= e[0].start_time.strftime("%A, %B, %d, %Y") %> <br>
+         <%= e[0].location %> <br>
+         Going: <%= e[1] %>
+         <div class="col-md-2 pull-right">
+          <%= button_to e[0], method: :delete, data: { confirm: 'Are you sure you want to end this event?' }, class: "btn btn-danger" do %>
+          <span class="glyphicon glyphicon-remove col-md-1"></span>
+          <% end %>
+        </div>
+        <div class="col-md-2 pull-right">
+          <%= button_to edit_event_path(e[0]), method: :get, class: "btn btn-warning" do %>
+          <span class="glyphicon glyphicon-pencil col-md-1"></span>
+          <% end %>
+        </div>
       </div>
-      <div class="col-md-6">
-        <h2>Attending</h2>
-        <div class="panel panel-default">
-          <div class="panel-heading">All events</div>
-          <ul class="list-group">          
-            <% @events.each do |e| %>
-            <li class="list-group-item">
-              <b> <%= e[0].name %> </b> <br>
-              
-              <%= e[0].start_time.strftime("%I:%M %p")%>
-              on 
-              <%= e[0].start_time.strftime("%A, %B, %d, %Y") %> <br>
-              <%= e[0].location %> <br>
-              Going: <%= e[1] %> 
-              <div class="col-md-2 pull-right">
-                 <%= button_to "events/leaveEvent/#{e[0].id}", method: :get, data: { confirm: 'Are you sure you want to leave this event?' }, class: "btn btn-danger" do %>
-                   <span class="glyphicon glyphicon-remove col-md-1"></span>
-                   <% end %>
-            </div>
-            <div class="col-md-2 pull-right">
+    </div>          
+    <% end %>
+    
+    <% if @events.count == 0 %>
+    <li class="list-group-item">
+      You're not hosting any events!
+    </li>
+    <% end %>
 
-                   <%= button_to "/events/#{e[0].id}", method: :get, class: "btn btn-success" do %>
-                   <span class="glyphicon glyphicon-menu-hamburger col-md-1"></span>
-                   <% end %>
-            </div>
-              <br><br>
-            </li>
-            <% end %>
+  </div>
+  <div class="col-md-6">
+    <h2>Attending</h2>
+    <div class="panel panel-default">
+      <div class="panel-heading">All events</div>
+      <ul class="list-group">          
+        <% @events.each do |e| %>
+        <li class="list-group-item">
+          <b> <%= e[0].name %> </b> <br>
+          
+          <%= e[0].start_time.strftime("%I:%M %p")%>
+          on 
+          <%= e[0].start_time.strftime("%A, %B, %d, %Y") %> <br>
+          <%= e[0].location %> <br>
+          Going: <%= e[1] %> 
+          <div class="col-md-2 pull-right">
+           <%= button_to "events/leaveEvent/#{e[0].id}", method: :get, data: { confirm: 'Are you sure you want to leave this event?' }, class: "btn btn-danger" do %>
+           <span class="glyphicon glyphicon-remove col-md-1"></span>
+           <% end %>
+         </div>
+         <div class="col-md-2 pull-right">
 
-            <% if @eventsAttending.count == 0 %>
-              <li class="list-group-item">
-                You aren't going to any events!
-              </li>
-            <% end %>
-           
-         </ul>
-       </div>
-     </div>
-   </div>
- </div>
- 
+           <%= button_to "/events/#{e[0].id}", method: :get, class: "btn btn-success" do %>
+           <span class="glyphicon glyphicon-menu-hamburger col-md-1"></span>
+           <% end %>
+         </div>
+         <br><br>
+       </li>
+       <% end %>
+
+       <% if @eventsAttending.count == 0 %>
+       <li class="list-group-item">
+        You aren't going to any events!
+      </li>
+      <% end %>
+      
+    </ul>
+  </div>
+</div>
+</div>
+</div>

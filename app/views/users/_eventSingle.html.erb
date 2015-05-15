@@ -1,33 +1,32 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <p>
-      Name: <%= event.name %>
-    </p>
+    <b> <%= link_to event.name, event %> </b>
   </div>
   <div class="panel-body">
-    <p>
-      Location: <%= event.location %>
-    </p>
-    <p>
-      Start Time: <%= event.start_time %>
-    </p>
-    <p>
-      End Time: <%= event.end_time %>
-    </p>
+   <% if event.start_time.strftime("%A, %B %d %Y") 
+    .eql? event.end_time.strftime("%A, %B %d %Y")%>
+
+     <%= event.start_time.strftime("%A, %B %d") %> <br>
+         <%= event.start_time.strftime("%I:%M %p")%>
+         at
+         <%= event.location %> <br>
+    
+    <% else %>
+       <%= event.start_time.strftime("%B %d") %> 
+       at <%= event.start_time.strftime("%I:%M %p")%> 
+       to
+      <%= event.end_time.strftime("%B %d") %> 
+       at <%= event.end_time.strftime("%I:%M %p")%> <br>
+      <%= event.location %> <br>
+    <% end %>
     <p>
       Description: <%= truncate(strip_tags(event.description), length: 120) %>
     </p>
-    <p>
-      <%= link_to 'Show', event %>
-    </p>
-    <p>
-      Comment stuff goes here!
-    </p>
     
     <% if !isAttending(current_user.id, event.id) %>
-      <%= button_to 'Attend', { controller: 'users', action: 'attendEvent', id: event.id }, remote: true %>
+      <%= button_to 'Attend', { controller: 'users', action: 'attendEvent', id: event.id }, remote: true, class: "btn btn-success" %>
     <% else %>
-      <%= button_to 'Leave', { controller: 'users', action: 'leaveEvent', id: event.id }, remote: true %>
+      <%= button_to 'Leave', { controller: 'users', action: 'leaveEvent', id: event.id }, remote: true, class: "btn btn-warning " %>
     <% end %>
     
     <!--
