@@ -1,3 +1,74 @@
+<div class="container documents">
+<div class="example">
+    
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Hosting</h2>
+          <% @events.each do |e| %>
+            <div class="panel panel-default">
+            <div class="panel-heading">
+            <h3 class="panel-title"> <%= e[0].name %> </h3>
+          </div>
+          <div class="panel-body">
+              <%= e[0].start_time %> <br>
+              <%= e[0].location %> <br>
+              Going: <%= e[1] %>
+                <div class = "row">
+                  <div class="col-sm-2 pull-right">
+                  <%= button_to edit_event_path(e[0]), method: :get, class: "btn btn-warning" do %>
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  <% end %>
+              </div>
+              <div class="col-sm-2 pull-right">
+                <%= button_to e[0], method: :delete, data: { confirm: 'Are you sure you want to end this event?' }, class: "btn btn-danger" do %>
+                  <span class="glyphicon glyphicon-remove"></span>
+                <% end %>
+              </div>
+             
+              </div>
+          </div>
+        </div>          
+          <% end %>
+
+      </div>
+      <div class="col-md-6">
+        <h2>Attending</h2>
+        <div class="panel panel-default">
+          <div class="panel-heading">All events</div>
+          <ul class="list-group">          
+          <% @events.each do |e| %>
+           <li class="list-group-item">
+              <%= e[0].name %> <br>
+              <%= e[0].location %>
+              <%= e[0].start_time %>
+              
+              <%= e[1] %>
+              
+               <table>
+                <tr>
+                  <td>
+               <%= button_to "/events/#{e[0].id}", method: :get, class: "btn btn-success" do %>
+                  <span class="glyphicon glyphicon-menu-hamburger"></span>
+                <% end %>
+              </td>
+              <td class="col-md-10">
+                 <%= button_to "events/leaveEvent/#{e[0].id}", method: :get, data: { confirm: 'Are you sure you want to leave this event?' }, class: "btn btn-danger" do %>
+                  <span class="glyphicon glyphicon-remove"></span>
+                <% end %>
+              </td>
+              </tr>
+              </table>
+             </li>
+            
+          <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 <p id="notice"><%= notice %></p>
 
 <div class="container">
@@ -114,4 +185,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>
