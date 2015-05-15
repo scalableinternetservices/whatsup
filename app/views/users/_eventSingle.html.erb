@@ -24,9 +24,9 @@
     </p>
     
     <% if !isAttending(current_user.id, event.id) %>
-      <%= button_to 'Attend', { controller: 'users', action: 'attendEvent', id: event.id }, remote: true, class: "btn btn-success" %>
+      <%= button_to 'Attend', { controller: 'users', action: 'attendEvent', id: event.id }, remote: true, class: "btn btn-success btn-sm" %>
     <% else %>
-      <%= button_to 'Leave', { controller: 'users', action: 'leaveEvent', id: event.id }, remote: true, class: "btn btn-warning " %>
+      <%= button_to 'Leave', { controller: 'users', action: 'leaveEvent', id: event.id }, remote: true, class: "btn btn-warning btn-sm" %>
     <% end %>
     
     <!--

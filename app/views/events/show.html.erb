@@ -1,8 +1,11 @@
+<div class = "row">
+  <div class="col-sm-6 col-sm-offset-3"> 
+
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
-  <%= @event.name %>
+  <h2><%= @event.name %></h2>
+  
 </p>
 
 <p>
@@ -12,12 +15,16 @@
 
 <p>
   <strong>Start:</strong>
-  <%= @event.start_time %>
+  <%= @event.start_time.strftime("%A, %B %d, %Y") %> 
+  at
+  <%= @event.start_time.strftime("%I:%M %p")%>
 </p>
 
 <p>
   <strong>End:</strong>
-  <%= @event.end_time %>
+  <%= @event.end_time.strftime("%A, %B %d, %Y") %> 
+  at
+  <%= @event.end_time.strftime("%I:%M %p")%>
 </p>
 
 <p>
@@ -36,9 +43,11 @@
   <br>
   <% if @event.user == current_user %>
   <%= link_to 'Edit', edit_event_path(@event)  %>
+  |
   <%= link_to 'Back', events_path    %>
   <% else %>
   <%= link_to "Back", action: "show", controller: "users"%>
   <% end %>
 </p>
-
+</div>
+</div>
