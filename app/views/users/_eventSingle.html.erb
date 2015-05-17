@@ -29,15 +29,15 @@
     <% else %>
       <%= button_to 'Leave', { controller: 'users', action: 'leaveEvent', id: event.id }, remote: true, class: "btn btn-warning btn-sm" %>
     <% end %>
-    
-    <!--
-    <div class="panel-body">
-      <%= getComments(event.id) .each do |c| %>
-        <div class="row">
-          <div class="col">
-            <p>
-              User: <%= c.user_id %>
-            </p>
+  </div>
+  
+  <div class="panel-body">
+      <% getComments(event.id) .each do |c| %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            User: <%= c.user_id %>
+          </div>
+          <div class="panel-body">
             <p>
               Text: <%= c.message %>
             </p>
@@ -47,13 +47,12 @@
           </div>
         </div>
       <% end %>
-      <%= form_for Comment.new, url: { action: 'new' }, remote: true do |f| %>
+        
+      <%= form_for :comment, url: { controller: 'users', action: 'createComment' }, remote: true do |f| %>
         <%= f.text_area :message %>
-        <%= hidden_field_tag(:event_id, event.id) %>
-        <%= hidden_field_tag(:user_id, current_user.id) %>
-        <%= f.submit 'Reply' %>
+        <%= f.hidden_field :event_id, :value => event.id %>
+        <%= f.hidden_field :user_id, :value => current_user.id %>
+        <%= f.submit 'Comment' %>
       <% end %>
     </div>
-    -->
-  </div>
 </div>

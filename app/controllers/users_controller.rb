@@ -104,9 +104,27 @@ class UsersController < ApplicationController
     log_out
     redirect_to action: 'new'
   end
+  
+  def createComment
+    comment = Comment.new(comment_params)
+    if !comment.save
+      render :action => :new
+    else
+      event = Event.find(params[:comment][:event_id])
+      respond_to do |format|
+        format.html
+        format.json
+        format.js { render 'reloadEvent', :locals => { :event => event } }
+      end
+    end
+  end
 
   private
     def article_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+    
+    def comment_params
+      params.require(:comment).permit(:message, :event_id, :user_id)
     end
 end

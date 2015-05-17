@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   post 'users/leaveEvent/:id' => 'users#leaveEvent'
   post 'users/attendEvent/:id' => 'users#attendEvent'
 
+  post 'users/createComment' => 'users#createComment'
+
   get 'users/:id', :to => 'users#show', :as => :user
 
   # Example resource route (maps HTTP verbs to controller actions automatically):

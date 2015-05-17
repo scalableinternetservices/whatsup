@@ -22,7 +22,7 @@ module UsersHelper
   end
   
   def getComments(event_id)
-    Comment.where(event_id: event_id).order(created_at: :desc)
+    Comment.where(event_id: event_id).order(created_at: :asc)
   end
   
   def isAttending(user_id, event_id)
