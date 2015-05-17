@@ -23,13 +23,19 @@ class UsersController < ApplicationController
     @user = current_user
     @result = request.safe_location
     
-    if params[:search].present?
-      @near_me = Event.near(params[:search], 50)
+    temp_events = Event.all
+    
+    if params[:location].present?
+      temp_events = Event.near(params[:location], 50)
     else  
-     # @near_me = Event.near('ucla', 50)
-      @near_me = Event.near([@result.latitude,@result.longitude],20) 
+      temp_events = Event.near([@result.latitude,@result.longitude],20) 
     end
 
+    if params[:category].present? and params[:category] != ""
+      temp_events = temp_events.where(category: params[:category])
+    end
+    
+    @near_me = temp_events
  
     if (logged_in? && params[:id].to_s != @user.id.to_s)
       redirect_to action: "show", id: @user.id
