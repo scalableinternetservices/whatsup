@@ -32,23 +32,72 @@
   </div>
   
   <ul class="list-group">
-   <% getComments(event.id) .each do |c| %> 
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-md-2">
-          <%= link_to User.find(c.user_id).name %>
-        </div>
-        <div class="col-md-10">
-          <%= c.message %>
-        </div>
+    <% if getComments(event.id).count > 4 %>
+      <li class="list-group-item" style="text-align: right">
+        <button class="btn btn-info btn-xs" type="button" data-toggle="collapse" data-target="#collapse<%= event.id %>" aria-expanded="true" aria-controls="collapse<%= event.id %>">
+          <small>Older Comments</small>
+        </button>
+      </li>
+      <div class="collapse" id="collapse<%= event.id %>">
+        <% getComments(event.id) .each_with_index do |c, i| %>
+          <% if i < getComments(event.id).count - 2 %>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-md-2">
+                  <%= link_to User.find(c.user_id).name %>
+                </div>
+                <div class="col-md-10">
+                  <%= c.message %>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12" style="text-align: right; color: gray">
+                  <small ><%= format_time(c.created_at) %></small>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        <% end %>
       </div>
-      <div class="row">
-        <div class="col-md-12" style="text-align: right; color: gray">
-          <small ><%= format_time(c.created_at) %></small>
-        </div>
-      </div>
-    </li>
+      <% getComments(event.id) .each_with_index do |c, i| %>
+        <% if i >= getComments(event.id).count - 2 %>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-md-2">
+                <%= link_to User.find(c.user_id).name %>
+              </div>
+              <div class="col-md-10">
+                <%= c.message %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12" style="text-align: right; color: gray">
+                <small ><%= format_time(c.created_at) %></small>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      <% end %>
+    <% else %>
+      <% getComments(event.id) .each do |c| %> 
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-md-2">
+              <%= link_to User.find(c.user_id).name %>
+            </div>
+            <div class="col-md-10">
+              <%= c.message %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12" style="text-align: right; color: gray">
+              <small ><%= format_time(c.created_at) %></small>
+            </div>
+          </div>
+        </li>
+      <% end %>
     <% end %>
+     
     <li class="list-group-item" style="padding-top: 15px; padding-bottom: 0px">
       <div class="row">
         <div class="col-md-12">
