@@ -28,5 +28,24 @@ module UsersHelper
   def isAttending(user_id, event_id)
     Attendance.where(user_id: user_id, event_id: event_id).any?
   end
+  
+  def format_time(time)
+    diffTime = Time.now - time
+    formattedString = ""
+    
+    if diffTime > 604800 # over a week
+      formattedString = time.strftime("%M %d, %Y")
+    elsif diffTime > 86400 # over a day
+      formattedString = "#{(diffTime / 86400).to_i} days ago"
+    elsif diffTime > 3600 # over an hour
+      formattedString = "#{(diffTime / 3600).to_i} hours ago"
+    elsif diffTime > 60 # over a minute
+      formattedString = "#{(diffTime / 60).to_i} minutes ago"
+    else # under a minute
+      formattedString = "#{diffTime.to_i} seconds ago"
+    end
+    
+    return formattedString
+  end
 
 end

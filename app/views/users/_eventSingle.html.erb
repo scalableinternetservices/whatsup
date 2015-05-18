@@ -1,6 +1,6 @@
-<div class="panel panel-default">
+<div class="panel panel-info">
   <div class="panel-heading">
-    <b> <%= link_to event.name, event %> </b>
+    <h1 class="panel-title"><%= link_to event.name, event %></h1>
   </div>
   <div class="panel-body">
    <%= event.category %> <br />
@@ -31,28 +31,36 @@
     <% end %>
   </div>
   
-  <div class="panel-body">
-      <% getComments(event.id) .each do |c| %>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            User: <%= c.user_id %>
-          </div>
-          <div class="panel-body">
-            <p>
-              Text: <%= c.message %>
-            </p>
-            <p>
-              Date: <%= c.created_at %>
-            </p>
-          </div>
+  <ul class="list-group">
+   <% getComments(event.id) .each do |c| %> 
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-md-2">
+          <%= link_to User.find(c.user_id).name %>
         </div>
-      <% end %>
-        
-      <%= form_for :comment, url: { controller: 'users', action: 'createComment' }, remote: true do |f| %>
-        <%= f.text_area :message %>
-        <%= f.hidden_field :event_id, :value => event.id %>
-        <%= f.hidden_field :user_id, :value => current_user.id %>
-        <%= f.submit 'Comment' %>
-      <% end %>
-    </div>
+        <div class="col-md-10">
+          <%= c.message %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12" style="text-align: right; color: gray">
+          <small ><%= format_time(c.created_at) %></small>
+        </div>
+      </div>
+    </li>
+    <% end %>
+    <li class="list-group-item" style="padding-top: 15px; padding-bottom: 0px">
+      <div class="row">
+        <div class="col-md-12">
+          <%= form_for :comment, url: { controller: 'users', action: 'createComment' }, remote: true do |f| %>
+            <div class="form-group">            
+              <%= f.text_field :message, class: "form-control", placeholder: "Leave a comment..." %>
+              <%= f.hidden_field :event_id, :value => event.id %>
+              <%= f.hidden_field :user_id, :value => current_user.id %>
+            </div>        
+          <% end %>
+        </div>
+      </div>
+    </li>
+  </ul>   
 </div>

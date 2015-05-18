@@ -2,6 +2,7 @@ class UsersController < ApplicationController
 
   skip_before_action :check_log_in, only: [:new, :create, :login]
   respond_to :html, :js
+  helper_method :boostrap_form_for
 
   def new
     if logged_in?
@@ -26,9 +27,9 @@ class UsersController < ApplicationController
     temp_events = Event.all
     
     if params[:location].present?
-      temp_events = Event.near(params[:location], 50)
+      temp_events = Event.near(params[:location], 50).limit(15)
     else  
-      temp_events = Event.near([@result.latitude,@result.longitude],20) 
+      temp_events = Event.near([@result.latitude,@result.longitude],20).limit(15)
     end
 
     if params[:category].present? and params[:category] != ""
