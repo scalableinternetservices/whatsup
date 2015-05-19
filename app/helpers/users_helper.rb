@@ -35,13 +35,21 @@ module UsersHelper
     
     if diffTime > 604800 # over a week
       formattedString = time.strftime("%M %d, %Y")
-    elsif diffTime > 86400 # over a day
+    elsif diffTime > 86400 * 2 # more than one day ago
       formattedString = "#{(diffTime / 86400).to_i} days ago"
-    elsif diffTime > 3600 # over an hour
+    elsif diffTime > 86400 # one day ago
+      formattedString = "1 day ago"
+    elsif diffTime > 3600 * 2 # more than one hour ago
       formattedString = "#{(diffTime / 3600).to_i} hours ago"
-    elsif diffTime > 60 # over a minute
+    elsif diffTime > 3600 # one hour ago
+      formattedString = "1 hour ago"
+    elsif diffTime > 60 * 2 # more than one minute ago
       formattedString = "#{(diffTime / 60).to_i} minutes ago"
-    else # under a minute
+    elsif diffTime > 60 # one minute ago
+      formattedString = "1 minute ago"
+    elsif diffTime == 1 # one second ago
+      formattedString = "1 second ago"
+    elsif diffTime == 1
       formattedString = "#{diffTime.to_i} seconds ago"
     end
     
