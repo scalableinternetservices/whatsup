@@ -9,7 +9,7 @@
 #Documentation for Faker: http://www.rubydoc.info/github/stympy/faker/Faker
 require 'faker'
 
-number_of_events = 3
+number_of_events = 10
 
 User.create!(
 	name: Faker::Name.name,
@@ -21,8 +21,9 @@ User.create!(
 number_of_events.times do |x|
 	Event.create!(
 	name: 'Test Event' +  x.to_s,
-	location: Faker::Address.street_address(include_secondary=false),
+	location: Faker::Address.city,
 	start_time: Time.now,
+	category: Faker::App.name,
 	end_time: Time.now, 
   	description: Faker::Hacker.say_something_smart
   )
