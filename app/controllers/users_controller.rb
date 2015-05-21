@@ -2,7 +2,6 @@ class UsersController < ApplicationController
 
   skip_before_action :check_log_in, only: [:new, :create, :login]
   respond_to :html, :js
-  helper_method :boostrap_form_for
 
   def new
     if logged_in?
@@ -103,6 +102,10 @@ class UsersController < ApplicationController
     
     createNotification(:leave, params[:id])
   end
+  
+  def notifications
+    @notifications = getAllNotifications
+  end
 
   def logout
     @user = nil
@@ -115,6 +118,7 @@ class UsersController < ApplicationController
     if !comment.save
       render :action => :new
     else
+      createNotification(:comment, comment.event_id)
       event = Event.find(params[:comment][:event_id])
       respond_to do |format|
         format.html
@@ -122,8 +126,6 @@ class UsersController < ApplicationController
         format.js { render 'reloadEvent', :locals => { :event => event } }
       end
     end
-    
-    createNotification(:comment, comment.event_id)
   end
 
   private

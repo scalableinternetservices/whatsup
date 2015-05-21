@@ -155,7 +155,7 @@ class EventsController < ApplicationController
     if !comment.save
       render :action => :new
     end
-    createNotification(:comment, comment.id)
+    createNotification(:comment, comment.event_id)
     redirect_to event_path(comment.event_id)
   end
   

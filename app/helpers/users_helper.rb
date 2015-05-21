@@ -29,6 +29,10 @@ module UsersHelper
     Notification.where(user_id: current_user.id, hasSeen: false).order(created_at: :asc)
   end
   
+  def getAllNotifications
+    Notification.where(user_id: current_user.id).order(created_at: :asc)
+  end
+  
   def isAttending(user_id, event_id)
     Attendance.where(user_id: user_id, event_id: event_id).any?
   end
@@ -45,15 +49,15 @@ module UsersHelper
   # :attend, :leave, :comment
   def createNotification(type, event_id)
     msg = nil
-    toUser = Event.find(event_id).user_id
+    hostId = Event.find(event_id).user_id
     case type
       when :attend
         msg = "#{getUserName(current_user.id)} is attending the event #{getEventName(event_id)}"
-        notification = Notification.new(user_id: toUser, from_user_id: current_user.id, event_id: event_id, hasSeen: false, message: msg)
+        notification = Notification.new(user_id: hostId, from_user_id: current_user.id, event_id: event_id, hasSeen: false, message: msg)
         notification.save
       when :leave
         msg = "#{getUserName(current_user.id)} has left the event #{getEventName(event_id)}"
-        notification = Notification.new(user_id: toUser, from_user_id: current_user.id, event_id: event_id, hasSeen: false, message: msg)
+        notification = Notification.new(user_id: hostId, from_user_id: current_user.id, event_id: event_id, hasSeen: false, message: msg)
         notification.save
       when :comment
         idList = []
@@ -77,7 +81,6 @@ module UsersHelper
         }
         
         # check if host is included
-        hostId = Event.(event_id).user_id
         if (!idList.include?(hostId))
           idList.push(hostId)
         end

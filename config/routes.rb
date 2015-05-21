@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   post 'users/createComment' => 'users#createComment'
   post 'events/createComment' => 'events#createComment'
 
+  get 'users/notifications' => 'users#notifications'
   get 'users/:id', :to => 'users#show', :as => :user
 
   # Example resource route (maps HTTP verbs to controller actions automatically):

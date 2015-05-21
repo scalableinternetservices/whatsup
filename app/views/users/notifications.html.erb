@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col">
+    <h1>Recent Notifications</h1>
+    <ul class="list-group">
+      <% @notifications .each do |n| %>
+        <li class="list-group-item">
+          <%= link_to controller: "events", action: "show", id: n.event_id do %>
+		  	    <%= n.message %>
+		      <% end %>
+		    </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
