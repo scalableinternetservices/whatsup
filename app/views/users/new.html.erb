@@ -12,44 +12,50 @@
           <h4 class="panel-title">
             <a data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
              <div class="col-sm-2 col-sm-offset-5"> 
-              <role="button" class = "btn btn-primary btn-block btn-xl"> GET STARTED </button>
+              <button class = "btn btn-primary btn-block btn-xl"> GET STARTED </button>
             </div>
           </a>
         </h4>
       </div>
       <br>
       <br>
-      <div id="collapseOne" class="panel-collapse collapse">
-        <div class="panel-body">
-          <div class="col-md-2 col-md-offset-5"> 
-            <%= form_for :user, url: users_path do |u| %>
-            <%= render 'shared/error_messages' %>
-            <p>
-              <%= u.label "Name" %><br>
-              <%= u.text_field :name %>
-            </p>
+      <%= form_for :user, url: users_path do |u| %>
+      <% if @user && @user.errors.any? %>
+      <div id="collapseOne" class="panel-collapse collapse in">
+        <%else%>
+        <div id="collapseOne" class="panel-collapse collapse">
+          <%end%>
+          <div class="panel-body">
+            <div class="col-md-2 col-md-offset-5"> 
 
-            <p>
-              <%= u.label "Email" %><br>
-              <%= u.text_field :email %>
-            </p>
+              <%= render 'shared/error_messages' %>
+              <p>
+                <%= u.label "Name" %><br>
+                <%= u.text_field :name %>
+              </p>
 
-            <p>
-              <%= u.label "Password" %><br>
-              <%= u.text_field :password, type: "password" %>
-            </p>
+              <p>
+                <%= u.label "Email" %><br>
+                <%= u.text_field :email %>
+              </p>
 
-            <p>
-              <%= u.label "Confirm Password" %><br>
-              <%= u.text_field :password_confirmation, type: "password" %>
-            </p>
+              <p>
+                <%= u.label "Password" %><br>
+                <%= u.text_field :password, type: "password" %>
+              </p>
 
-            <p>
-              <%= u.submit "Create Account", class:"btn btn-primary"%>
-            </p>
-            <% end %>
+              <p>
+                <%= u.label "Confirm Password" %><br>
+                <%= u.text_field :password_confirmation, type: "password" %>
+              </p>
+
+              <p>
+                <%= u.submit "Create Account", class:"btn btn-primary"%>
+              </p>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+</body>
