@@ -51,18 +51,6 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     @event.user = current_user
-    # print event_params
-    # for category in params[:event_categories]
-    # print "Test print\n"
-    # print "Test print\n"
-    # print "Test print\n"
-    # print "Test print\n"
-    # print "Test print\n"
-    # print "Test print\n"
-    # print "Test print\n"
-    # print "Test print\n"
-    # print "The categories are: #{params[:event][:event_categories]}\n"
-    # end
     
     respond_to do |format|
       if @event.save #assumes that the user selected at least 1 category
@@ -128,7 +116,6 @@ class EventsController < ApplicationController
       if @event.update(event_params)
         params[:event][:event_categories].each do |cat|
           if (cat.to_s != "")
-           print "#{cat}\n"
            temp_cat = EventCategory.new(event_id: @event.id, category: cat)
            temp_cat.save
           end
