@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   post 'users/attendEvent/:id' => 'users#attendEvent'
 
   post 'users/createComment' => 'users#createComment'
+  post 'events/createComment' => 'events#createComment'
 
   get 'users/:id', :to => 'users#show', :as => :user
 

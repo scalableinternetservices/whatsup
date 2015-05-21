@@ -83,6 +83,7 @@ class UsersController < ApplicationController
       end
     end
     
+    createNotification(:attend, params[:id])
   end
   
   def leaveEvent
@@ -99,6 +100,8 @@ class UsersController < ApplicationController
         format.js { render 'reloadEvent', :locals => { :event => event } }
       end
     end
+    
+    createNotification(:leave, params[:id])
   end
 
   def logout
@@ -119,6 +122,8 @@ class UsersController < ApplicationController
         format.js { render 'reloadEvent', :locals => { :event => event } }
       end
     end
+    
+    createNotification(:comment, comment.event_id)
   end
 
   private

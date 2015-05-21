@@ -30,17 +30,15 @@
             <li><%= link_to "Home", { action: "show", controller: "users" } %></li>
             <li><%= link_to "Your Events", { action: "index", controller: "events" } %></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="badge">10</span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="badge" style="color: red"><%= getNotifications.count %></a></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">TestUser commented on your event!</a></li>
-                <li><a href="#">TestUser is attending your event!</a></li>
-                <li><a href="#">TestUser has left your event!</a></li>
-                <li><a href="#">TestUser likes your event!</a></li>
-                <li><a href="#">TestUser has accepted your friend request!</a></li>
-                <li><a href="#">A really long comment that is meant to see if text gets cut off or expands tab</a></li>
-                <li><a href="#">Test</a></li>
-                <li><a href="#">Test</a></li>
-                <li><a href="#">Test</a></li>
+                <% getNotifications .each do |n| %>
+                  <li>
+                    <%= link_to controller: "events", action: "show", id: n.event_id do %>
+                      <%= render partial: "shared/notification", locals: { notification: n } %>
+                    <% end %>
+                  </li>
+                <% end %>
               </ul>
             </li>
             <li class="dropdown">

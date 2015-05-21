@@ -58,7 +58,11 @@
     <br>
     <br>
     <br>
+    
     <ul class="list-group">
+      <% if getComments(@event.id).count == 0 %>
+        <li class="list-group-item">No one has commented on this event.</li>
+      <% end %>
       <% getComments(@event.id) .each do |c| %> 
         <li class="list-group-item">
           <div class="row">
@@ -76,6 +80,19 @@
           </div>
         </li>
       <% end %>
+      <li class="list-group-item" style="padding-top: 15px; padding-bottom: 0px">
+        <div class="row">
+          <div class="col-md-12">
+            <%= form_for :comment, url: { controller: 'events', action: 'createComment' } do |f| %>
+              <div class="form-group">            
+                <%= f.text_field :message, class: "form-control", placeholder: "Leave a comment..." %>
+                <%= f.hidden_field :event_id, :value => @event.id %>
+                <%= f.hidden_field :user_id, :value => current_user.id %>
+              </div>        
+            <% end %>
+          </div>
+        </div>
+      </li>
     </ul>
   </div>
 </div>

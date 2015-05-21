@@ -95,6 +95,8 @@ class EventsController < ApplicationController
         # event doesn't exist
       end
     end
+    
+    createNotification(:attend, params[:id])
     redirect_to action: "index", controller: "events"  
   end
   
@@ -105,6 +107,7 @@ class EventsController < ApplicationController
       redirect_to action: 'index', controller: 'events'
     else
       eventList.first.destroy
+      createNotification(:leave, params[:id])
       redirect_to action: "index", controller: "events"
     end
   end
@@ -147,6 +150,15 @@ class EventsController < ApplicationController
     end
   end
 
+  def createComment
+    comment = Comment.new(comment_params)
+    if !comment.save
+      render :action => :new
+    end
+    createNotification(:comment, comment.id)
+    redirect_to event_path(comment.event_id)
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
@@ -156,5 +168,9 @@ class EventsController < ApplicationController
     # Never trust parameters from the scary Internet, only allow the white list through.
     def event_params
       params.require(:event).permit(:name, :location, :start_time, :end_time, :description, {:event_categories => [:category]})
+    end
+    
+    def comment_params
+      params.require(:comment).permit(:message, :event_id, :user_id)
     end
 end

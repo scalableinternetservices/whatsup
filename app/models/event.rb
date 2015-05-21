@@ -2,6 +2,7 @@ class Event < ActiveRecord::Base
 
   belongs_to :user
   has_many :event_categories, :dependent => :destroy
+  has_many :notifications
   geocoded_by :location
   after_validation :geocode
   validates :name, presence: true

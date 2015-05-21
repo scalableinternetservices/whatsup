@@ -25,8 +25,76 @@ module UsersHelper
     Comment.where(event_id: event_id).order(created_at: :asc)
   end
   
+  def getNotifications
+    Notification.where(user_id: current_user.id, hasSeen: false).order(created_at: :asc)
+  end
+  
   def isAttending(user_id, event_id)
     Attendance.where(user_id: user_id, event_id: event_id).any?
+  end
+  
+  def getUserName(user_id)
+    User.find(user_id).name
+  end
+  
+  def getEventName(event_id)
+    Event.find(event_id).name
+  end
+  
+  # Currently accepted types
+  # :attend, :leave, :comment
+  def createNotification(type, event_id)
+    msg = nil
+    toUser = Event.find(event_id).user_id
+    case type
+      when :attend
+        msg = "#{getUserName(current_user.id)} is attending the event #{getEventName(event_id)}"
+        notification = Notification.new(user_id: toUser, from_user_id: current_user.id, event_id: event_id, hasSeen: false, message: msg)
+        notification.save
+      when :leave
+        msg = "#{getUserName(current_user.id)} has left the event #{getEventName(event_id)}"
+        notification = Notification.new(user_id: toUser, from_user_id: current_user.id, event_id: event_id, hasSeen: false, message: msg)
+        notification.save
+      when :comment
+        idList = []
+        msg = "#{getUserName(current_user.id)} has commented on the event #{getEventName(event_id)}"
+        
+        # we need to get a list of all the people that commented
+        listToNotify = Comment.where(event_id: event_id).select("user_id").distinct.flatten
+        
+        listToNotify.each { |n|
+          if (n.user_id != current_user.id && !idList.include?(n.user_id))
+            idList.push(n.user_id)
+          end
+        }
+        
+        # we need to get a list of all the people that are attending
+        listToNotify = Attendance.where(event_id: event_id).select("user_id").distinct.flatten
+        listToNotify.each { |n|
+          if (n.user_id != current_user.id && !idList.include?(n.user_id))
+            idList.push(n.user_id)
+          end
+        }
+        
+        # check if host is included
+        hostId = Event.(event_id).user_id
+        if (!idList.include?(hostId))
+          idList.push(hostId)
+        end
+        
+        idList.each { |id|
+          notification = Notification.new(user_id: id, from_user_id: current_user.id, event_id: event_id, hasSeen: false, message: msg)
+          notification.save
+        }
+      else
+        return
+    end
+
+    # should probably do error checking here
+  end
+  
+  def seenNotification(notification_id)
+    Notification.find(notification_id).update_attribute(hasSeen: true)
   end
   
   def format_time(time)
@@ -49,7 +117,7 @@ module UsersHelper
       formattedString = "1 minute ago"
     elsif diffTime == 1 # one second ago
       formattedString = "1 second ago"
-    elsif diffTime == 1
+    else
       formattedString = "#{diffTime.to_i} seconds ago"
     end
     
