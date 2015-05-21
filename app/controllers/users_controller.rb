@@ -31,8 +31,9 @@ class UsersController < ApplicationController
       temp_events = Event.near([@result.latitude,@result.longitude],20) 
     end
 
-    if params[:category].present? and params[:category] != ""
-      temp_events = temp_events.where(category: params[:category])
+    if params[:event_categories].present? and params[:event_categories].length != 0
+      temp_events = temp_events.joins(:event_categories).where('event_categories.category in (?)', params[:event_categories]).uniq
+      
     end
     
     @near_me = temp_events

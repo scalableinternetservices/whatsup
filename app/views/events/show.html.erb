@@ -38,8 +38,10 @@
 </p>
 
 <p>
-	<strong>Category:</strong>
-  	<%= @event.category %>
+	<strong>Categories:</strong> <br />
+	<% @event.event_categories.each do |cat|%>
+	<%= cat.category %> <br />
+	<% end %>
 </p>
 
 <p>

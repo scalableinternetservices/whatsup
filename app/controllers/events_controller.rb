@@ -51,9 +51,27 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     @event.user = current_user
+    # print event_params
+    # for category in params[:event_categories]
+    # print "Test print\n"
+    # print "Test print\n"
+    # print "Test print\n"
+    # print "Test print\n"
+    # print "Test print\n"
+    # print "Test print\n"
+    # print "Test print\n"
+    # print "Test print\n"
+    # print "The categories are: #{params[:event][:event_categories]}\n"
+    # end
     
     respond_to do |format|
-      if @event.save 
+      if @event.save #assumes that the user selected at least 1 category
+        params[:event][:event_categories].each do |cat|
+          if (cat.to_s != "")
+           temp_cat = EventCategory.new(event_id: @event.id, category: cat)
+           temp_cat.save
+          end
+        end
         @attend = Attendance.new(user_id: current_user.id, event_id: @event.id)
         if @attend.save
           format.html { redirect_to @event, notice: 'Event was successfully created.' }
@@ -76,7 +94,7 @@ class EventsController < ApplicationController
       # we are already going to this event!
       format.html { redirect_to action: 'index', controller: 'events', notice: 'You are already going to this event!' }
     elsif (eventList.count != 0)
-      # we have an incosistency in the data table
+      # we have an inconsistency in the data table
     else
     
       # attend this event
@@ -108,6 +126,13 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
+        params[:event][:event_categories].each do |cat|
+          if (cat.to_s != "")
+           print "#{cat}\n"
+           temp_cat = EventCategory.new(event_id: @event.id, category: cat)
+           temp_cat.save
+          end
+        end
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -124,6 +149,10 @@ class EventsController < ApplicationController
     for event in @attending
       event.destroy
     end
+    @categories = EventCategory.where(event_id: @event.id)
+    for cat in @categories
+      cat.destroy
+    end
     @event.destroy
     respond_to do |format|
       format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
@@ -139,6 +168,6 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary Internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:name, :location, :start_time, :end_time, :description, :category)
+      params.require(:event).permit(:name, :location, :start_time, :end_time, :description, {:event_categories => [:category]})
     end
 end

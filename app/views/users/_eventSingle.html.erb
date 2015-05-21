@@ -3,7 +3,6 @@
     <b> <%= link_to event.name, event %> </b>
   </div>
   <div class="panel-body">
-   <%= event.category %> <br />
    <% if event.start_time.strftime("%A, %B %d %Y") 
     .eql? event.end_time.strftime("%A, %B %d %Y")%>
 
@@ -21,7 +20,13 @@
       <%= event.location %> <br>
     <% end %>
     <p>
-      Description: <%= truncate(strip_tags(event.description), length: 120) %>
+      Categories:
+      <% event.event_categories.each do |cat| %>
+      <%= cat.category %>;&nbsp;
+      <% end %>
+  	</p>
+  	<p>
+    	<%= truncate(strip_tags(event.description), length: 120) %>
     </p>
     
     <% if !isAttending(current_user.id, event.id) %>

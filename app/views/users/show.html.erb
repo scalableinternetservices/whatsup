@@ -12,9 +12,12 @@
 			</div>
 			<div class="col-md-4 pull-right">
 				Categories:
-				<%= select_tag :category, options_for_select((list_categories).push(""), params[:category] || "") %>
+				<%= select_tag :event_categories, options_for_select((list_categories), params[:event_categories] || ""), multiple: true %>
 			</div>
 			<% end %>
+			<br />
+			<br />
+			<br />
 			<br />
 			<div class="col-md-4" >
 				<th>Your current location:</th>
