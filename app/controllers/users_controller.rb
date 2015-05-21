@@ -2,6 +2,7 @@ class UsersController < ApplicationController
 
   skip_before_action :check_log_in, only: [:new, :create, :login]
   respond_to :html, :js
+  helper_method :boostrap_form_for
 
   def new
     if logged_in?
@@ -26,9 +27,9 @@ class UsersController < ApplicationController
     temp_events = Event.all
     
     if params[:location].present?
-      temp_events = Event.near(params[:location], 50)
+      temp_events = Event.near(params[:location], 50).limit(15)
     else  
-      temp_events = Event.near([@result.latitude,@result.longitude],20) 
+      temp_events = Event.near([@result.latitude,@result.longitude],20).limit(15)
     end
 
     if params[:event_categories].present? and params[:event_categories].length != 0
@@ -105,9 +106,27 @@ class UsersController < ApplicationController
     log_out
     redirect_to action: 'new'
   end
+  
+  def createComment
+    comment = Comment.new(comment_params)
+    if !comment.save
+      render :action => :new
+    else
+      event = Event.find(params[:comment][:event_id])
+      respond_to do |format|
+        format.html
+        format.json
+        format.js { render 'reloadEvent', :locals => { :event => event } }
+      end
+    end
+  end
 
   private
     def article_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+    
+    def comment_params
+      params.require(:comment).permit(:message, :event_id, :user_id)
     end
 end
