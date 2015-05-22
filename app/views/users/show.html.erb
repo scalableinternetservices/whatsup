@@ -1,29 +1,15 @@
 <div class="container documents">
 	<div class="row">
-		<div class="col-md-6 col-sm-offset-3">
+		<div class = "col-md-3">
+		</div>
+		<div class="col-md-6">
+
 			<h2>Events Near You</h2>
-			<%= form_tag user_path, :method => :get do %>
-			<div class="col-md-2 pull-right">
-				<%= submit_tag "Update Search", :name => nil, class:"btn btn-xs"%>
-			</div>
-			<div class="col-md-4 pull-right">
-				Location:
-				<%= text_field_tag :location, params[:location] %>
-			</div>
-			<div class="col-md-4 pull-right">
-				Categories:
-				<%= select_tag :event_categories, options_for_select((list_categories), params[:event_categories] || ""), multiple: true %>
-			</div>
-			<% end %>
-			<br />
-			<br />
-			<br />
-			<br />
-			<div class="col-md-4" >
-				<th>Your current location:</th>
-				<%= @result.latitude %>, <%= @result.longitude %>
-			</div>
-			<br> <br> <br> <br>
+
+			<th>Your current location: </th>
+			<%= @result.latitude %>, <%= @result.longitude %>
+
+			<br/> <br/>
 			<% @near_me.each do |e| %>
 			<div id="event<%= e.id %>">
 				<%= render partial: "eventSingle", locals: { event: e } %>
@@ -40,5 +26,18 @@
 			<br />
 			
 		</div>
+
+		<div class="col-md-3">
+			<br/> <br/>
+			
+			<%= form_tag user_path, :method => :get do %>	
+			Categories: <br/>
+			<%= select_tag :event_categories, options_for_select((list_categories), params[:event_categories] || ""), multiple: true %>
+			<%= text_field_tag :location, params[:location], class: "input-group form-search",placeholder:"Location" %>
+
+			<%= submit_tag "Search", :name => nil, class:"btn btn-xs"%>
+			<% end %>
+		</div>
+		
 	</div>
 </div>

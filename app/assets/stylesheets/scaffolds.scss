@@ -1,5 +1,4 @@
 body {
-  background-color: gray;
   color: #333;
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
@@ -17,6 +16,45 @@ body {
     padding: 9px 18px;
     font-size: 11px;
     border-radius: 5px;
+}
+
+.panel-aqua {
+  background-color: #31a2c4 !important;
+  border-color:  #31a2c4 !important;
+}
+
+.navbar-custom {
+  background-color: #3BAFDA;
+  border-color: #3BAFDA;
+  color: #f5f5f5;
+}
+
+.navbar-custom .navbar-brand, .navbar-custom .navbar-link, .navbar-custom .btn-link {
+  color: #f5f5f5;
+  background-color: #3BAFDA;
+}
+
+.navbar-custom .navbar-text, .navbar-custom .navbar-nav > li > a {
+  color: #f5f5f5;
+  background-color: #3BAFDA;
+}
+
+.navbar-custom .navbar-brand:hover, .navbar-custom .navbar-brand:focus, .navbar-custom .navbar-link:hover, .navbar-custom .btn-link:hover, .navbar-custom .btn-link:focus {
+  color: #CCD1D9;
+  background-color: #3BAFDA;
+}
+
+.navbar-custom .navbar-nav > li > a:hover, .navbar-custom .navbar-nav > li > a:focus {
+  color: #CCD1D9;
+}
+
+.navbar-custom .navbar-nav > .active > a, .navbar-custom .navbar-nav > .active > a:hover, .navbar-custom .navbar-nav > .active > a:focus {
+  color: #CCD1D9;
+  background-color: #3BAFDA;
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+  background-color: #3BAFDA;
 }
 
 /*

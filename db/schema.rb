@@ -49,7 +49,6 @@ ActiveRecord::Schema.define(version: 20150521192213) do
     t.datetime "updated_at",                                         null: false
     t.integer  "user_id",     limit: 4
     t.datetime "end_time"
-    t.string   "category",    limit: 255
   end
 
   create_table "notifications", force: :cascade do |t|
