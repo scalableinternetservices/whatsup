@@ -26,11 +26,11 @@ module UsersHelper
   end
   
   def getNotifications
-    Notification.where(user_id: current_user.id, hasSeen: false).order(created_at: :asc)
+    notifications = Notification.where(user_id: current_user.id, hasSeen: false).order(created_at: :asc)
   end
   
   def getAllNotifications
-    Notification.where(user_id: current_user.id).order(created_at: :asc)
+    Notification.where(user_id: current_user.id).order(created_at: :desc)
   end
   
   def isAttending(user_id, event_id)

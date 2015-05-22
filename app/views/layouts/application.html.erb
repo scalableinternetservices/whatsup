@@ -30,8 +30,13 @@
             <li><%= link_to "Home", { action: "show", controller: "users" } %></li>
             <li><%= link_to "Your Events", { action: "index", controller: "events" } %></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="badge" style="color: red"><%= getNotifications.count %></a></span></a>
+              <%= link_to url_for( controller: "users", action: "seenNotifications"), class: "dropdown-toggle", :'data-toggle' => 'dropdown', role: 'button', :'aria-expanded' => 'false', method: :post,  remote: true do %>
+                <span class="badge" style="color: green"><%= getNotifications.count %></span>
+              <% end %>
               <ul class="dropdown-menu" role="menu">
+                <% if getNotifications.count == 0 %>
+                  <li><a>You have no notifications!</a></li>
+                <% end %>
                 <% getNotifications .each do |n| %>
                   <li>
                     <%= link_to controller: "events", action: "show", id: n.event_id do %>
