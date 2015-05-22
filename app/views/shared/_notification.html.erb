@@ -1,5 +1,10 @@
 <div class="row">
-  <div class="col">
-	  <%= notification.message %>
+  <div class="col-md-12">
+    <%= notification.message %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-10 col-md-offset-1" style="color: gray">
+    <small><%= format_time(notification.created_at) %></small>
   </div>
 </div>

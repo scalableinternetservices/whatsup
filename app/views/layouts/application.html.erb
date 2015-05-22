@@ -7,9 +7,9 @@
 
   <%= csrf_meta_tags %>
 </head>
-<body style="background: gray">
+<body style="background: #F0F0F0">
 <div class="container documents">
-  <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: #f1f2f6">
+  <nav class="navbar navbar-inverse navbar-fixed-top" style="background: linear-gradient(#f1f2f6, ##f1f2f6);">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -57,11 +57,11 @@
           <%= form_for :session, url: { action: 'login', controller: 'users' }, html: { class: "navbar-form navbar-right" } do |f| %>
 
             <div class="form-group">
-              <%= f.label :email %>
+              <%= f.label :email, style: 'color: rgb(140, 140, 140)' %>
               <%= f.email_field :email, class: "form-control" %>
             </div>
             <div class="form-group">
-              <%= f.label :password %>
+              <%= f.label :password, style: 'color: rgb(140, 140, 140)' %>
               <%= f.password_field :password, class: "form-control" %>
             </div>
             
