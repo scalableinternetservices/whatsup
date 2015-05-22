@@ -86,6 +86,6 @@ Rails.application.configure do
       :region => 'us-west-2'
     },
     :fog_directory => 'scalableinternetservices',
-    :path => 'demo/'
+    :path => 'whatsup/'
   }
 end
