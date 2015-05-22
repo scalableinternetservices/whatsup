@@ -14,8 +14,8 @@ class Event < ActiveRecord::Base
     if (self.end_time <= self.start_time)
       errors.add(:end_time, "must be after the start time.") 
       return false
-    elsif (self.start_time < Time.now)
-      errors.add(:start_time, "must not be in the past.") 
+    elsif (self.end_time < Time.now)
+      errors.add(:end_time, "must not be in the past.") 
       return false
     end
   end
