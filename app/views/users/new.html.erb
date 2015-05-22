@@ -31,27 +31,27 @@
 
               <%= render 'shared/error_messages' %>
               <p>
-                <%= u.label "Name" %><br>
+                <%= u.label "Name", style: 'color: #D0D0D0' %><br>
                 <%= u.text_field :name %>
               </p>
 
               <p>
-                <%= u.label "Email" %><br>
+                <%= u.label "Email", style: 'color: #D0D0D0' %><br>
                 <%= u.text_field :email %>
               </p>
 
               <p>
-                <%= u.label "Password" %><br>
+                <%= u.label "Password", style: 'color: #D0D0D0' %><br>
                 <%= u.text_field :password, type: "password" %>
               </p>
 
               <p>
-                <%= u.label "Confirm Password" %><br>
+                <%= u.label "Confirm Password", style: 'color: #D0D0D0' %><br>
                 <%= u.text_field :password_confirmation, type: "password" %>
               </p>
 
               <p>
-                <%= u.submit "Create Account", class:"btn btn-primary"%>
+                <%= u.submit "Create Account", class:"btn btn-success"%>
               </p>
               <% end %>
             </div>

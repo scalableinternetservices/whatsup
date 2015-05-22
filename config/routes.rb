@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   
   post 'users/leaveEvent/:id' => 'users#leaveEvent'
   post 'users/attendEvent/:id' => 'users#attendEvent'
+  
+  post 'users/seenNotifications' => 'users#seenNotifications'
 
   post 'users/createComment' => 'users#createComment'
   post 'events/createComment' => 'events#createComment'

@@ -105,6 +105,11 @@ class UsersController < ApplicationController
   
   def notifications
     @notifications = getAllNotifications
+    @notifications.each { |n|
+      if !n.hasSeen
+        n.update_attribute(:hasSeen, true)
+      end
+    }
   end
 
   def logout
@@ -126,6 +131,13 @@ class UsersController < ApplicationController
         format.js { render 'reloadEvent', :locals => { :event => event } }
       end
     end
+  end
+  
+  def seenNotifications
+    notifications = getNotifications
+    notifications.each { |n|
+      n.update_attribute(:hasSeen, true)
+    }
   end
 
   private

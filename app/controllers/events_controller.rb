@@ -143,6 +143,14 @@ class EventsController < ApplicationController
     for cat in @categories
       cat.destroy
     end
+    @comments = Comment.where(event_id: @event.id)
+    for comment in @comments
+      comment.destroy
+    end
+    @notifications = Notification.where(event_id: @event.id)
+    for notification in @notifications
+      notification.destroy
+    end
     @event.destroy
     respond_to do |format|
       format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
