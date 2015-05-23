@@ -37,6 +37,11 @@
 	<%= f.select :event_categories, options_for_select((list_categories), @event ? cats : "") , 
 		{}, { :multiple => true, :size => list_categories.length } %>
   </div>
+
+  <div class="field">
+   <%= f.file_field :image%>    
+    </div>
+
   <div class="actions">
     <%= f.submit class:"btn btn-success"%>
   </div>
