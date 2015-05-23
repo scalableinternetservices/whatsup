@@ -53,7 +53,12 @@
           method='POST'
           contents='user%5Bname%5D=%%_person_name%%&amp;user%5Bemail%5D=%%_email%%&amp;user%5Bpassword%5D=%%_password%%&amp;user%5Bpassword_confirmation%5D=%%_password%%&amp;commit=Create+Account'>
         </http>
-          <!-- contents='submission%5Btitle%5D=link_%%_random_submission_name%%&amp;submission%5Burl%5D=http%3A%2F%2Fwww.article.com%2F%%_random_submission_name%%&amp;submission%5Bcommunity_id%5D=%%_created_community_id%%&amp;commit=Create+Submission' -->
+		<setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) -> 
+		 io:format([126, $p, 126, $n, 126, $n], [DynVars]), 
+		 ok end."> 
+		 <var name="dump" /> 
+		</setdynvars> 
+
       </request>
 
     </session>
