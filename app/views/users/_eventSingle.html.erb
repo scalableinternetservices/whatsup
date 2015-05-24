@@ -3,6 +3,13 @@
     <h1 class="panel-title"><%= link_to event.name, event %></h1>
   </div>
   <div class="panel-body">
+
+    <div class = "row">
+
+      <div class = "col-sm-6">
+    <%= image_tag event.image.url, :size => "190x100" %>
+  </div>
+<div class = "col-sm-6">
    <% if event.start_time.strftime("%A, %B %d %Y") 
     .eql? event.end_time.strftime("%A, %B %d %Y")%>
 
@@ -35,7 +42,9 @@
       <%= button_to 'Leave', { controller: 'users', action: 'leaveEvent', id: event.id }, remote: true, class: "btn btn-warning btn-sm" %>
     <% end %>
   </div>
-  
+  </div>
+  </div> 
+
   <ul class="list-group">
     <% if getComments(event.id).count > 4 %>
       <li class="list-group-item" style="text-align: right">

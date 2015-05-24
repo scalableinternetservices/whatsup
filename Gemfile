@@ -64,3 +64,8 @@ gem 'bootflat-rails'
 # to fix this error:
 #The controller-level `respond_to' feature has been extracted to the `responders` gem.
 gem 'responders', '~> 2.0'
+
+# for image upload
+gem "paperclip"
+gem 'aws-sdk'
+gem 'fog'
