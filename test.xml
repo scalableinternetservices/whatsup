@@ -9,7 +9,7 @@
 
   <!-- Server side setup -->
   <servers>
-    <server host="ec2-52-24-253-178.us-west-2.compute.amazonaws.com" port="80" type="tcp"></server>
+    <server host="ec2-52-25-57-83.us-west-2.compute.amazonaws.com" port="80" type="tcp"></server>
   </servers>
 
 
