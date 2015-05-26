@@ -139,6 +139,34 @@ class UsersController < ApplicationController
       n.update_attribute(:hasSeen, true)
     }
   end
+  
+  def destroy
+    if (@user == nil)
+      @user = User.find(params[:id])
+    end
+    
+    Event.where(user_id: @user.id).each { |e|
+      @attending = Attendance.where(event_id: e.id)
+      for event in @attending
+        event.destroy
+      end
+      @categories = EventCategory.where(event_id: e.id)
+      for cat in @categories
+        cat.destroy
+      end
+      @comments = Comment.where(event_id: e.id)
+      for comment in @comments
+        comment.destroy
+      end
+      @notifications = Notification.where(event_id: e.id)
+      for notification in @notifications
+        notification.destroy
+      end
+    }
+    
+    @user.destroy
+    redirect_to action: 'new'
+  end
 
   private
     def article_params
