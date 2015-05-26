@@ -9,7 +9,7 @@
 
   <!-- Server side setup -->
   <servers>
-    <server host="ec2-52-25-37-13.us-west-2.compute.amazonaws.com" port="80" type="tcp"></server>
+    <server host="ec2-52-24-173-1.us-west-2.compute.amazonaws.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -17,6 +17,8 @@
     <arrivalphase phase="1" duration="30" unit="second">
       <users arrivalrate="1" unit="second"></users>
     </arrivalphase>
+
+    <!--
     <arrivalphase phase="2" duration="30" unit="second">
       <users arrivalrate="2" unit="second"></users>
     </arrivalphase>
@@ -26,6 +28,7 @@
     <arrivalphase phase="4" duration="30" unit="second">
       <users arrivalrate="8" unit="second"></users>
     </arrivalphase>
+  -->
   </load>
 
   <options>
@@ -39,26 +42,46 @@
 
   <sessions>
     <session name="whatsup_load_default" probability="100" type="ts_http">
+      
       <transaction name="first_load">
         <request>
           <http url='/' version='1.1' method='GET'></http>
         </request>
       </transaction>
+
       <thinktime value="2" random="true"></thinktime>
+      
       <transaction name="create_account">
         <setdynvars sourcetype='random_number' start='1000' end='9999999'>
           <var name='random_email_id'/>
         </setdynvars>
+      
         <request subst="true">
           <http 
             url='/users' 
             version='1.1' 
             method='POST'
-            contents='user%5Bname%5D=Random+User&amp;user%5Bemail%5D=random_email_%%random_email_id%%%40gmail.com&amp;user%5Bpassword%5D=password&amp;user%5Bpassword_confirmation%5D=password&amp;commit=Create+Account'>
+            contents='user%5Bname%5D=anothertest&amp;user%5Bemail%5D=%%_random_email_id%%%40gmail.com&amp;user%5Bpassword%5D=password&amp;user%5Bpassword_confirmation%5D=password&amp;commit=Create+Account'>
           </http>
         </request>
+      </transaction> 
+
+      <thinktime value="2" random="true"></thinktime>
+      
+      <!-- Uncomment the following to debug print your dynamic variables  --> 
+      <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
+        io:format([126, $p, 126, $n, 126, $n], [DynVars]),
+        ok end.">
+        <var name="dump" />
+      </setdynvars>
+     
+      <!-- Create some events -->
+      <!--
+      <thinktime value="2" random="true"></thinktime>
+      <transaction name="create_account">
+
       </transaction>
-      <transaction name="query">
+      -->
     </session>
   </sessions>
 </tsung>
