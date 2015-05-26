@@ -2,8 +2,7 @@ sudo yum update
 sudo yum install -y patch
 sudo yum install -y sqlite-devel
 sudo yum install -y mysql-devel
-sudo yum install pecl make ImageMagick ImageMagick-devel php-devel gcc re2c
-sudo pecl install imagick 
+sudo yum install -y ImageMagick
 
 mysqladmin -u root -p create library_develop
 mysqladmin -u root -p create library_production
