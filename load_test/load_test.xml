@@ -77,22 +77,8 @@
 
       <thinktime value="2" random="true"></thinktime>
       
-      <!-- Uncomment the following to debug print your dynamic variables  --> 
-      <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
-        io:format([126, $p, 126, $n, 126, $n], [DynVars]),
-        ok end.">
-        <var name="dump" />
-      </setdynvars>
-     
-      <!-- Create some events -->
-      <!--
-      <thinktime value="2" random="true"></thinktime>
-      <transaction name="create_account">
-
-      </transaction>
-      -->
-      
-      <dyn_variable name="created_event_id" re="[Ll]ocation:http://.*/events/(.*)\r"/>
+      <!-- PUT EVENT CREATION CODE HERE -->
+      <dyn_variable name="created_event_id" re="[Ll]ocation: http://.*/events/(.*)\r"/>
       
       
       <transaction name="comment_on_event">
@@ -114,12 +100,13 @@
             method='POST'
             contents=''>
           </http>
+        </request>
       </transaction>
       
       <transaction name="leave_event">
         <request subst="true">
           <http
-            url='users/leaveEvent/%%_created_event_id%%'
+            url='/users/leaveEvent/%%_created_event_id%%'
             version='1.1'
             method='POST'
             contents=''>
@@ -127,10 +114,12 @@
         </request>
       </transaction>
       
+      <!-- searching here? -->
+      
       <transaction name="delete_event">
         <request subst="true">
           <http
-            url='events/%%_created_event_id'
+            url='/events/%%_created_event_id'
             version='1.1'
             method='POST'
             contents='_method=DELETE'
@@ -141,13 +130,20 @@
       <transaction name="delete_user">
         <request subst="true">
           <http
-            url='users/%%_created_user_id%%'
+            url='/users/%%_created_user_id%%'
             version='1.1'
             method='POST'
             contents='_method=DELETE'
             >
         </request>
       </transaction>
+      
+      <!-- Uncomment the following to debug print your dynamic variables  --> 
+      <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
+        io:format([126, $p, 126, $n, 126, $n], [DynVars]),
+        ok end.">
+        <var name="dump" />
+      </setdynvars>
     </session>
   </sessions>
 </tsung>
