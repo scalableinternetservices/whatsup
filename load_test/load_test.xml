@@ -55,6 +55,8 @@
         <setdynvars sourcetype='random_number' start='1000' end='9999999'>
           <var name='random_email_id'/>
         </setdynvars>
+        
+        <dyn_variable name="created_user_id" re="[Ll]ocation:http://.*/users/(.*)\r"/>
       
         <request subst="true">
           <http 
@@ -82,6 +84,41 @@
 
       </transaction>
       -->
+      
+      <dyn_variable name="created_event_id" re="[Ll]ocation:http://.*/events/(.*)\r"/>
+      
+      
+      <transaction name="comment_on_event">
+        <request subst="true"">
+          <http
+            url='/users/createComment'
+            version='1.1'
+            method='POST'
+            contents='comment%5Bmessage%5D=comment&amp;comment%5Buser_id%5D=%%_created_user_id%%8&amp;comment%5B%5D=%%_created_event_id%%'>
+          </http>
+        </request>
+      </transaction>
+      
+      <transaction name="attend_event">
+        <request subst="true">
+          <http
+            url='/users/attendEvent/%%_created_event_id%%'
+            version='1.1'
+            method='POST'
+            contents=''>
+          </http>
+      </transaction>
+      
+      <transaction name="leave_event">
+        <request subst="true">
+          <http
+            url='users/leaveEvent/%%_created_event_id%%'
+            version='1.1'
+            method='POST'
+            contents=''>
+          </http>
+        </request>
+      </transaction>
     </session>
   </sessions>
 </tsung>
