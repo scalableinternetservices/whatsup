@@ -52,6 +52,9 @@ end
 # for location
 gem 'geocoder'
 
+#for maps
+gem 'gmaps4rails'
+
 # used for validating timestamps
 gem 'validates_timeliness', '~> 3.0'
 
