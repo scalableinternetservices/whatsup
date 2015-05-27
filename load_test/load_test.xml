@@ -55,9 +55,7 @@
         <setdynvars sourcetype='random_number' start='1000' end='9999999'>
           <var name='random_email_id'/>
         </setdynvars>
-        
-        <dyn_variable name="created_user_id" re="[Ll]ocation:http://.*/users/(.*)\r"/>
-      
+              
         <request subst="true">
           <http 
             url='/users' 
@@ -66,26 +64,21 @@
             contents='user%5Bname%5D=anothertest&amp;user%5Bemail%5D=%%_random_email_id%%%40gmail.com&amp;user%5Bpassword%5D=password&amp;user%5Bpassword_confirmation%5D=password&amp;commit=Create+Account'>
           </http>
         </request>
+        
+        <request subst="true">
+          <dyn_variable name="created_user_id" re="[Ll]ocation: http://.*/users/(.*)\r"/>
+          <http 
+            url='/users' 
+            version='1.1' 
+            method='GET'>
+          </http>
+        </request>
       </transaction> 
 
       <thinktime value="2" random="true"></thinktime>
       
-      <!-- Uncomment the following to debug print your dynamic variables  --> 
-      <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
-        io:format([126, $p, 126, $n, 126, $n], [DynVars]),
-        ok end.">
-        <var name="dump" />
-      </setdynvars>
-     
-      <!-- Create some events -->
-      <!--
-      <thinktime value="2" random="true"></thinktime>
-      <transaction name="create_account">
-
-      </transaction>
-      -->
-      
-      <dyn_variable name="created_event_id" re="[Ll]ocation:http://.*/events/(.*)\r"/>
+      <!-- PUT EVENT CREATION CODE HERE -->
+      <dyn_variable name="created_event_id" re="[Ll]ocation: http://.*/events/(.*)\r"/>
       
       
       <transaction name="comment_on_event">
@@ -98,7 +91,7 @@
           </http>
         </request>
       </transaction>
-      
+            
       <transaction name="attend_event">
         <request subst="true">
           <http
@@ -107,18 +100,50 @@
             method='POST'
             contents=''>
           </http>
+        </request>
       </transaction>
       
       <transaction name="leave_event">
         <request subst="true">
           <http
-            url='users/leaveEvent/%%_created_event_id%%'
+            url='/users/leaveEvent/%%_created_event_id%%'
             version='1.1'
             method='POST'
             contents=''>
           </http>
         </request>
       </transaction>
+      
+      <!-- searching here? -->
+      
+      <transaction name="delete_event">
+        <request subst="true">
+          <http
+            url='/events/%%_created_event_id'
+            version='1.1'
+            method='POST'
+            contents='_method=DELETE'
+            >
+        </request>
+      </transaction>
+      
+      <transaction name="delete_user">
+        <request subst="true">
+          <http
+            url='/users/%%_created_user_id%%'
+            version='1.1'
+            method='POST'
+            contents='_method=DELETE'
+            >
+        </request>
+      </transaction>
+      
+      <!-- Uncomment the following to debug print your dynamic variables  --> 
+      <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
+        io:format([126, $p, 126, $n, 126, $n], [DynVars]),
+        ok end.">
+        <var name="dump" />
+      </setdynvars>
     </session>
   </sessions>
 </tsung>
