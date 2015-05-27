@@ -9,7 +9,7 @@
 
   <!-- Server side setup -->
   <servers>
-    <server host="ec2-52-11-138-168.us-west-2.compute.amazonaws.com" port="80" type="tcp"></server>
+    <server host="ec2-52-11-230-185.us-west-2.compute.amazonaws.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -77,23 +77,29 @@
 
       <thinktime value="2" random="true"></thinktime>
 
-      <!-- create an event with an image -->
+      <!-- create an event with an image 
+      MAKE SURE picnic1.jpg is in the same folder as load_test.xml or event creations won't work!!!
+        -->
       <transaction name="create_event">
         <setdynvars sourcetype="eval"
           code='fun({Pid,DynVars})-> [[13, 10]] end.'>
           <var name="nl" />
         </setdynvars>
 
-        <setdynvars sourcetype="eval"
+        <setdynvars sourcetype="random_number" start="1000" end="9999999">
+          <var name="random_event_id" />
+        </setdynvars>
+
+        <!-- event with image -->
+        <!-- xml doesn't support two consecutive dashes in comments so need to use <? ignore ?> tag
+        to comment out the event creation code -->
+        <?ignore
+          <setdynvars sourcetype="eval"
           code='fun({Pid,DynVars})->
           {ok, Bin} = file:read_file("picnic1.jpg"),
           Bin
           end.'>
           <var name="attached_file" />
-        </setdynvars>
-
-        <setdynvars sourcetype="random_number" start="1000" end="9999999">
-          <var name="random_event_id" />
         </setdynvars>
 
         <request subst="true">
@@ -106,6 +112,25 @@
             contents='------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[name]"%%_nl%%%%_nl%%Event%%_random_event_id%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[location]"%%_nl%%%%_nl%%Los Angeles%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(4i)]"%%_nl%%%%_nl%%02%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(4i)]"%%_nl%%%%_nl%%03%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[description]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[event_categories][]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[image]"; filename="picnic1.png"%%_nl%%Content-Type: image/jpeg%%_nl%%%%_nl%%%%_attached_file%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="commit"%%_nl%%%%_nl%%Create Event%%_nl%%------FormBoundary--%%_nl%%%%_nl%%'>
           </http>
         </request>
+        ?>
+
+        <!-- uncomment this if you want an event without image and comment the "event with images" code above
+            used for debugging dyanmic vars
+            and you don't want all the bytes of the images to show up in the console
+          -->
+        <!-- xml doesn't support two consecutive dashes in comments so need to use <? ignore ?> tag
+        to comment out the event creation code -->
+         <request subst="true">
+          <dyn_variable name="created_event_id" re="[Ll]ocation: http://.*/events/(.*)\r"/>
+          <http
+            url='/events'
+            version='1.1'
+            method='POST'
+            content_type='multipart/form-data; boundary=----FormBoundary'
+            contents='------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[name]"%%_nl%%%%_nl%%Event%%_random_event_id%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[location]"%%_nl%%%%_nl%%Los Angeles%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(4i)]"%%_nl%%%%_nl%%02%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(4i)]"%%_nl%%%%_nl%%03%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[description]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[event_categories][]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[image]"; filename=""%%_nl%%Content-Type: application/octet-stream%%_nl%%%%_nl%%%%_attached_file%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="commit"%%_nl%%%%_nl%%Create Event%%_nl%%------FormBoundary--%%_nl%%%%_nl%%'>
+          </http>
+        </request>
+
       </transaction> 
 
       <thinktime value="2" random="true"></thinktime>
@@ -167,7 +192,6 @@
             </http>
         </request>
       </transaction>
-
 
       <!-- Uncomment the following to debug print your dynamic variables  --> 
       <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
