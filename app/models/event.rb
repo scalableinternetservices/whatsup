@@ -12,9 +12,7 @@ class Event < ActiveRecord::Base
 
   # for image attachment for events
   has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>", 
-    :url  => "/assets/events/:id/:style/:basename.:extension",
-    :path => ":rails_root/public/assets/events/:id/:style/:basename.:extension",
-    :default_url => "assets/images/thumb/missing.png" }
+    :url  => "/assets/events/:id/:style/:basename.:extension"}
   validates_attachment_size :image, :less_than => 5.megabytes
   validates_attachment_content_type :image, :content_type => ['image/jpeg', 
     'image/jpg','image/png']
