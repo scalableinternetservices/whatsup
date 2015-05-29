@@ -141,7 +141,7 @@
             url='/users/createComment'
             version='1.1'
             method='POST'
-            contents='comment%5Bmessage%5D=comment&amp;comment%5Buser_id%5D=%%_created_user_id%%&amp;comment%5B%5D=%%_created_event_id%%'>
+            contents='comment%5Bmessage%5D=comment&amp;comment%5Buser_id%5D=%%_created_user_id%%&amp;comment%5Bevent_id%5D=%%_created_event_id%%'>
           </http>
         </request>
       </transaction>
