@@ -93,7 +93,6 @@
         <!-- event with image -->
         <!-- xml doesn't support two consecutive dashes in comments so need to use <? ignore ?> tag
         to comment out the event creation code -->
-        <?ignore
           <setdynvars sourcetype="eval"
           code='fun({Pid,DynVars})->
           {ok, Bin} = file:read_file("picnic1.jpg"),
@@ -112,14 +111,12 @@
             contents='------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[name]"%%_nl%%%%_nl%%Event%%_random_event_id%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[location]"%%_nl%%%%_nl%%Los Angeles%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(4i)]"%%_nl%%%%_nl%%02%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(4i)]"%%_nl%%%%_nl%%03%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[description]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[event_categories][]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[image]"; filename="picnic1.png"%%_nl%%Content-Type: image/jpeg%%_nl%%%%_nl%%%%_attached_file%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="commit"%%_nl%%%%_nl%%Create Event%%_nl%%------FormBoundary--%%_nl%%%%_nl%%'>
           </http>
         </request>
-        ?>
+        
 
         <!-- uncomment this if you want an event without image and comment the "event with images" code above
-            used for debugging dyanmic vars
-            and you don't want all the bytes of the images to show up in the console
-          -->
-        <!-- xml doesn't support two consecutive dashes in comments so need to use <? ignore ?> tag
+         xml doesn't support two consecutive dashes in comments so need to use <? ignore ?> tag
         to comment out the event creation code -->
+        <?ignore
          <request subst="true">
           <dyn_variable name="created_event_id" re="[Ll]ocation: http://.*/events/(.*)\r"/>
           <http
@@ -130,7 +127,7 @@
             contents='------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[name]"%%_nl%%%%_nl%%Event%%_random_event_id%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[location]"%%_nl%%%%_nl%%Los Angeles%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(4i)]"%%_nl%%%%_nl%%02%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(4i)]"%%_nl%%%%_nl%%03%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[description]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[event_categories][]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[image]"; filename=""%%_nl%%Content-Type: application/octet-stream%%_nl%%%%_nl%%%%_attached_file%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="commit"%%_nl%%%%_nl%%Create Event%%_nl%%------FormBoundary--%%_nl%%%%_nl%%'>
           </http>
         </request>
-
+        ?>
       </transaction> 
 
       <thinktime value="2" random="true"></thinktime>
@@ -194,9 +191,9 @@
       </transaction>
 
       <!-- Uncomment the following to debug print your dynamic variables  --> 
-      <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
-        io:format([126, $p, 126, $n, 126, $n], [DynVars]),
-        ok end.">
+       <setdynvars sourcetype="eval" code='fun( {Pid, DynVars} ) ->
+        io:format([126, $p, 126, $n, 126, $n],  [lists:keydelete(attached_file, 1, DynVars)] ),
+        ok end.'>
         <var name="dump" />
       </setdynvars>
       
