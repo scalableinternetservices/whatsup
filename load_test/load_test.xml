@@ -17,8 +17,6 @@
     <arrivalphase phase="1" duration="2" unit="second">
       <users arrivalrate="1" unit="second"></users>
     </arrivalphase>
-
-    <!--
     <arrivalphase phase="2" duration="30" unit="second">
       <users arrivalrate="2" unit="second"></users>
     </arrivalphase>
@@ -28,7 +26,6 @@
     <arrivalphase phase="4" duration="30" unit="second">
       <users arrivalrate="8" unit="second"></users>
     </arrivalphase>
-  -->
   </load>
 
   <options>
@@ -166,18 +163,28 @@
       </transaction>
       
       <!-- searching here? -->
-      
-      <transaction name="delete_event">
+       <transaction name="search_event">
         <request subst="true">
           <http
-            url='/events/%%_created_event_id%%'
+            url='/users/%%_created_user_id%%'
             version='1.1'
-            method='POST'
-            contents='_method=DELETE'>
+            method='GET'>
             </http>
         </request>
       </transaction>
-      
+
+      <thinktime value="2" random="true"></thinktime>
+
+      <transaction name="search_event">
+        <request subst="true">
+          <http
+            url='/users/%%_created_user_id%%/&amp;location=New+York'
+            version='1.1'
+            method='GET'>
+            </http>
+        </request>
+      </transaction>
+
       <transaction name="delete_user">
         <request subst="true">
           <http
@@ -186,6 +193,17 @@
             method='POST'
             contents='_method=DELETE'
             >
+            </http>
+        </request>
+      </transaction>
+      
+      <transaction name="delete_event">
+        <request subst="true">
+          <http
+            url='/events/%%_created_user_id%%'
+            version='1.1'
+            method='GET'
+            contents='_method=DELETE'>
             </http>
         </request>
       </transaction>
