@@ -28,6 +28,7 @@
       <users arrivalrate="10" unit="second"></users>
     </arrivalphase>
     
+
     <!-- High Load     
     <arrivalphase phase="1" duration="30" unit="second">
       <users arrivalrate="10" unit="second"></users>
@@ -182,7 +183,7 @@
       </transaction>
       
       <!-- searching here? -->
-       <transaction name="search_event">
+       <transaction name="search_event_near_you">
         <request subst="true">
           <http
             url='/users/%%_created_user_id%%'
@@ -194,10 +195,10 @@
 
       <thinktime value="2" random="true"></thinktime>
 
-      <transaction name="search_event">
+      <transaction name="search_event_near_NY">
         <request subst="true">
           <http
-            url='/users/%%_created_user_id%%/&amp;location=New+York'
+            url='/users/%%_created_user_id%%?location=New+York'
             version='1.1'
             method='GET'>
             </http>
