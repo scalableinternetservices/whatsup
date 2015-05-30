@@ -9,7 +9,7 @@
 #Documentation for Faker: http://www.rubydoc.info/github/stympy/faker/Faker
 require 'faker'
 
-number_of_events = 50
+number_of_events = 0
 
 User.create!(
 	name: Faker::Name.name,

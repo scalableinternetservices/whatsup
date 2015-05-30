@@ -21,9 +21,9 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
-    @result = request.safe_location
+    @result = getLocation
     
-    temp_events = Event.all
+    temp_events = nil
     
     if params[:location].present?
       temp_events = Event.near(params[:location], 50).limit(15)
