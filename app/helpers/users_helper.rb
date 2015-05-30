@@ -9,13 +9,6 @@ module UsersHelper
   def current_user
     @current_user ||= User.find_by(id: session[:user_id])
   end
-  
-  def getLocation
-    if session[:location] == nil
-      session[:location] = request.safe_location
-    end
-    return session[:location]
-  end
 
   # Returns true if the user is logged in, false otherwise.
   def logged_in?

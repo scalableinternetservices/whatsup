@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
-    @result = getLocation
+    @result = request.safe_location
     
     temp_events = nil
     
