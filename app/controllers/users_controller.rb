@@ -31,9 +31,9 @@ class UsersController < ApplicationController
       
       if Rails.cache.exist?("latitude_user_#{@user.id}", :expires_in => 1.hours) #return what was in the cache if something was there
         @lat = Rails.cache.fetch("latitude_user_#{@user.id}", :expires_in => 1.hours)
-      elsif request.location != nil #store the location if it is available but not in the cache
+      elsif request.safe_location != nil #store the location if it is available but not in the cache
         @lat = Rails.cache.fetch("latitude_user_#{@user.id}", :expires_in => 1.hours) do
-          request.location.latitude
+          request.safe_location.latitude
         end
       else
         @lat = 0 #rare case: set latitude to 0
