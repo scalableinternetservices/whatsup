@@ -21,15 +21,14 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
-    @lat = request.location.latitude
-    @lon = request.location.longitude
+    @result = request.safe_location
     
-    temp_events = nil
+    temp_events = Event.all
     
     if params[:location].present?
       temp_events = Event.near(params[:location], 50).limit(15)
     else  
-      temp_events = Event.near([@lat,@lon],20).limit(15)
+      temp_events = Event.near([@result.latitude,@result.longitude],20).limit(15)
     end
 
     if params[:event_categories].present? and params[:event_categories].length != 0

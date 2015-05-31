@@ -9,33 +9,33 @@
 
   <!-- Server side setup -->
   <servers>
-    <server host="ec2-52-24-231-126.us-west-2.compute.amazonaws.com" port="80" type="tcp"></server>
+    <server host="ec2-52-26-6-101.us-west-2.compute.amazonaws.com" port="80" type="tcp"></server>
   </servers>
 
 
   <load>
-    <!-- Low Load -->
-    <arrivalphase phase="1" duration="5" unit="second">
+    <!-- Low Load 
+    <arrivalphase phase="1" duration="30" unit="second">
       <users arrivalrate="1" unit="second"></users>
     </arrivalphase> 
-      
-    <!-- Medium Load 
+    -->
+
+    <!-- Medium Load -->
     <arrivalphase phase="1" duration="30" unit="second">
       <users arrivalrate="5" unit="second"></users>
     </arrivalphase>
     <arrivalphase phase="2" duration="30" unit="second">
       <users arrivalrate="10" unit="second"></users>
     </arrivalphase>
-    -->
-
-    <!-- High Load   
+    
+    <!-- High Load     
     <arrivalphase phase="1" duration="30" unit="second">
       <users arrivalrate="10" unit="second"></users>
     </arrivalphase>    
     <arrivalphase phase="2" duration="30" unit="second">
       <users arrivalrate="20" unit="second"></users>
     </arrivalphase>
-    -->  
+    -->
 
     <!-- Very High Load 
     <arrivalphase phase="1" duration="30" unit="second">
@@ -80,9 +80,7 @@
             contents='user%5Bname%5D=anothertest&amp;user%5Bemail%5D=%%_random_email_id%%%40gmail.com&amp;user%5Bpassword%5D=password&amp;user%5Bpassword_confirmation%5D=password&amp;commit=Create+Account'>
           </http>
         </request>
-      
-
-
+        
         <request subst="true">
           <dyn_variable name="created_user_id" re="[Ll]ocation: http://.*/users/(.*)\r"/>
           <http 
@@ -111,7 +109,6 @@
         <!-- event with image -->
         <!-- xml doesn't support two consecutive dashes in comments so need to use <? ignore ?> tag
         to comment out the event creation code -->
-        
           <setdynvars sourcetype="eval"
           code='fun({Pid,DynVars})->
           {ok, Bin} = file:read_file("picnic1.jpg"),
@@ -127,18 +124,15 @@
             version='1.1'
             method='POST'
             content_type='multipart/form-data; boundary=----FormBoundary'
-            contents='------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[name]"%%_nl%%%%_nl%%Event%%_random_event_id%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[location]"%%_nl%%%%_nl%%Los Angeles%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(4i)]"%%_nl%%%%_nl%%02%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(4i)]"%%_nl%%%%_nl%%03%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[description]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[event_categories][]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[image]"; filename="picnic1.jpg"%%_nl%%Content-Type: image/jpeg%%_nl%%%%_nl%%%%_attached_file%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="commit"%%_nl%%%%_nl%%Create Event%%_nl%%------FormBoundary--%%_nl%%%%_nl%%'>
+            contents='------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[name]"%%_nl%%%%_nl%%Event%%_random_event_id%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[location]"%%_nl%%%%_nl%%Los Angeles%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(4i)]"%%_nl%%%%_nl%%02%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(4i)]"%%_nl%%%%_nl%%03%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[description]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[event_categories][]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[image]"; filename="picnic1.png"%%_nl%%Content-Type: image/jpeg%%_nl%%%%_nl%%%%_attached_file%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="commit"%%_nl%%%%_nl%%Create Event%%_nl%%------FormBoundary--%%_nl%%%%_nl%%'>
           </http>
         </request>
         
 
         <!-- uncomment this if you want an event without image and comment the "event with images" code above
-            used for debugging dyanmic vars
-            and you don't want all the bytes of the images to show up in the console
-          -->
-        <!-- xml doesn't support two consecutive dashes in comments so need to use <? ignore ?> tag
+         xml doesn't support two consecutive dashes in comments so need to use <? ignore ?> tag
         to comment out the event creation code -->
-         <?ignore
+        <?ignore
          <request subst="true">
           <dyn_variable name="created_event_id" re="[Ll]ocation: http://.*/events/(.*)\r"/>
           <http
@@ -150,7 +144,6 @@
           </http>
         </request>
         ?>
-
       </transaction> 
 
       <thinktime value="2" random="true"></thinktime>
@@ -189,7 +182,7 @@
       </transaction>
       
       <!-- searching here? -->
-       <transaction name="search_event_near_you">
+       <transaction name="search_event">
         <request subst="true">
           <http
             url='/users/%%_created_user_id%%'
@@ -201,28 +194,16 @@
 
       <thinktime value="2" random="true"></thinktime>
 
-      <transaction name="search_event_near_NY">
+      <transaction name="search_event">
         <request subst="true">
           <http
-            url='/users/%%_created_user_id%%?location=New+York'
+            url='/users/%%_created_user_id%%/&amp;location=New+York'
             version='1.1'
             method='GET'>
             </http>
         </request>
       </transaction>
 
-
-      <transaction name="delete_event">
-        <request subst="true">
-          <http
-            url='/events/%%_created_event_id%%'
-            version='1.1'
-            method='POST'
-            contents='_method=DELETE'>
-            </http>
-        </request>
-      </transaction>
-      
       <transaction name="delete_user">
         <request subst="true">
           <http
@@ -234,9 +215,20 @@
             </http>
         </request>
       </transaction>
+      
+      <transaction name="delete_event">
+        <request subst="true">
+          <http
+            url='/events/%%_created_user_id%%'
+            version='1.1'
+            method='GET'
+            contents='_method=DELETE'>
+            </http>
+        </request>
+      </transaction>
 
       <!-- Uncomment the following to debug print your dynamic variables  --> 
-      <setdynvars sourcetype="eval" code='fun( {Pid, DynVars} ) ->
+       <setdynvars sourcetype="eval" code='fun( {Pid, DynVars} ) ->
         io:format([126, $p, 126, $n, 126, $n],  [lists:keydelete(attached_file, 1, DynVars)] ),
         ok end.'>
         <var name="dump" />

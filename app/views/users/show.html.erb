@@ -10,16 +10,14 @@
 			<h2>Events Near You</h2>
 
 			<th>Your current location: </th>
-			<%= @lat %>, <%= @lon %>
+			<%= @result.latitude %>, <%= @result.longitude %>
 
 			<br/> <br/>
 
 			<% @near_me.each do |e| %>
-				<% cache(cache_key_for_event_panel(e)) do %>
-					<div id="event<%= e.id %>">
-						<%= render partial: "eventSingle", locals: { event: e } %>
-					</div>
-				<% end %>
+			<div id="event<%= e.id %>">
+				<%= render partial: "eventSingle", locals: { event: e } %>
+			</div>
 			<% end %>
 
 			<% if !@near_me.present? %>
@@ -69,8 +67,8 @@
 var lat = parseFloat(<%= @near_me[0].latitude.to_s %>);
 var lon = parseFloat(<%= @near_me[0].longitude.to_s %>);
 <% else %>
-var lat = parseFloat(<%=@lat%>);
-var lon = parseFloat(<%=@lon%>);
+var lat = parseFloat(<%=@result.latitude%>);
+var lon = parseFloat(<%=@result.longitude%>);
 <% end %>
 
 var map;
