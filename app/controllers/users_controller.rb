@@ -20,30 +20,43 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = current_user
-    @result = request.safe_location
-    
-    temp_events = Event.all
-    
-    if params[:location].present?
-      temp_events = Event.near(params[:location], 50).limit(15)
-    elsif @result != nil
-      temp_events = Event.near([@result.latitude,@result.longitude],20).limit(15)
-    end
-
-    if params[:event_categories].present? and params[:event_categories].length != 0
-      temp_events = temp_events.joins(:event_categories).where('event_categories.category in (?)', params[:event_categories]).uniq
-      
-    end
-    
-    @near_me = temp_events
- 
     if (logged_in? && params[:id].to_s != @user.id.to_s)
       redirect_to action: "show", id: @user.id
     elsif (!logged_in?)
       redirect_to action: "new"
     else
-      @user = User.find(params[:id])
+      @user = current_user
+      
+      Rails.cache.cleanup
+      
+      if Rails.cache.exist?("result_user_#{@user.id}", :expires_in => 1.hours) #return what was in the cache if something was there
+        @result = Rails.cache.fetch("result_user_#{@user.id}", :expires_in => 1.hours)
+      elsif request.safe_location != nil #store the location if it is available but not in the cache
+        result = Rails.cache.fetch("result_user_#{@user.id}", :expires_in => 1.hours) do
+          request.safe_location
+        end
+      else
+        @result = nil #rare case: set location to nil
+      end
+      
+      temp_events = nil
+      
+      if params[:location].present?
+        temp_events = Rails.cache.fetch("events_near_param_#{params[:location]}", :expires_in => 5.minutes) do
+          Event.near(params[:location], 50).limit(15)
+        end
+      else  
+        temp_events = Rails.cache.fetch("events_near_lat_#{@lat}_lon_#{@lon}", :expires_in => 5.minutes) do
+          Event.near([@lat,@lon], 50).limit(15)
+        end
+      end
+  
+      if params[:event_categories].present? and params[:event_categories].length != 0
+        temp_events = temp_events.joins(:event_categories).where('event_categories.category in (?)', params[:event_categories]).uniq
+        
+      end
+      
+      @near_me = temp_events
     end
   end
 
