@@ -9,6 +9,10 @@
 
 			<h2>Events Near You</h2>
 
+			<% if @result != nil %>
+				<th>Your current location: </th>
+				<%= @result.latitude %>, <%= @result.longitude %>
+			<% end %>
 			<br/> <br/>
 
 			<% @near_me.each do |e| %>

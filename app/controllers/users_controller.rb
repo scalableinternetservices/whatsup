@@ -27,7 +27,7 @@ class UsersController < ApplicationController
     
     if params[:location].present?
       temp_events = Event.near(params[:location], 50).limit(15)
-    else  
+    elsif @result != nil
       temp_events = Event.near([@result.latitude,@result.longitude],20).limit(15)
     end
 
