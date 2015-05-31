@@ -117,6 +117,7 @@
           <var name="attached_file" />
         </setdynvars>
 
+        <?ignore
         <request subst="true">
           <dyn_variable name="created_event_id" re="[Ll]ocation: http://.*/events/(.*)\r"/>
           <http
@@ -127,34 +128,43 @@
             contents='------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[name]"%%_nl%%%%_nl%%Event%%_random_event_id%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[location]"%%_nl%%%%_nl%%Los Angeles%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(4i)]"%%_nl%%%%_nl%%02%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(4i)]"%%_nl%%%%_nl%%03%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[description]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[event_categories][]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[image]"; filename="picnic1.png"%%_nl%%Content-Type: image/jpeg%%_nl%%%%_nl%%%%_attached_file%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="commit"%%_nl%%%%_nl%%Create Event%%_nl%%------FormBoundary--%%_nl%%%%_nl%%'>
           </http>
         </request>
-        
+        ?>
 
         <!-- uncomment this if you want an event without image and comment the "event with images" code above
          xml doesn't support two consecutive dashes in comments so need to use <? ignore ?> tag
         to comment out the event creation code -->
-        <?ignore
-         <request subst="true">
-          <dyn_variable name="created_event_id" re="[Ll]ocation: http://.*/events/(.*)\r"/>
-          <http
-            url='/events'
-            version='1.1'
-            method='POST'
-            content_type='multipart/form-data; boundary=----FormBoundary'
-            contents='------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[name]"%%_nl%%%%_nl%%Event%%_random_event_id%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[location]"%%_nl%%%%_nl%%Los Angeles%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(4i)]"%%_nl%%%%_nl%%02%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(4i)]"%%_nl%%%%_nl%%03%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[description]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[event_categories][]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[image]"; filename=""%%_nl%%Content-Type: application/octet-stream%%_nl%%%%_nl%%%%_attached_file%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="commit"%%_nl%%%%_nl%%Create Event%%_nl%%------FormBoundary--%%_nl%%%%_nl%%'>
+       <request subst="true">
+         <dyn_variable name="created_event_id" re="[Ll]ocation: http://.*/events/(.*)\r"/>
+           <http
+             url='/events'
+             version='1.1'
+             method='POST'
+             content_type='multipart/form-data; boundary=----FormBoundary'
+             contents='------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[name]"%%_nl%%%%_nl%%Event%%_random_event_id%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[location]"%%_nl%%%%_nl%%Los Angeles%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(4i)]"%%_nl%%%%_nl%%02%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[start_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(1i)]"%%_nl%%%%_nl%%2015%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(2i)]"%%_nl%%%%_nl%%6%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(3i)]"%%_nl%%%%_nl%%27%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(4i)]"%%_nl%%%%_nl%%03%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[end_time(5i)]"%%_nl%%%%_nl%%00%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[description]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[event_categories][]"%%_nl%%%%_nl%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="event[image]"; filename=""%%_nl%%Content-Type: application/octet-stream%%_nl%%%%_nl%%%%_attached_file%%%%_nl%%------FormBoundary%%_nl%%Content-Disposition: form-data; name="commit"%%_nl%%%%_nl%%Create Event%%_nl%%------FormBoundary--%%_nl%%%%_nl%%'>
           </http>
         </request>
-        ?>
       </transaction> 
 
       <thinktime value="2" random="true"></thinktime>
  
-     <transaction name="comment_on_event">
+      <transaction name="comment_on_event">
         <request subst="true">
           <http
             url='/users/createComment'
             version='1.1'
             method='POST'
             contents='comment%5Bmessage%5D=comment&amp;comment%5Buser_id%5D=%%_created_user_id%%&amp;comment%5Bevent_id%5D=%%_created_event_id%%'>
+          </http>
+        </request>
+      </transaction>
+          
+      <transaction name="leave_event">
+        <request subst="true">
+          <http
+            url='/users/leaveEvent/%%_created_event_id%%'
+            version='1.1'
+            method='POST'
+            contents=''>
           </http>
         </request>
       </transaction>
@@ -170,19 +180,7 @@
         </request>
       </transaction>
       
-      <transaction name="leave_event">
-        <request subst="true">
-          <http
-            url='/users/leaveEvent/%%_created_event_id%%'
-            version='1.1'
-            method='POST'
-            contents=''>
-          </http>
-        </request>
-      </transaction>
-      
-      <!-- searching here? -->
-       <transaction name="search_event">
+      <transaction name="search_event">
         <request subst="true">
           <http
             url='/users/%%_created_user_id%%'
@@ -204,6 +202,17 @@
         </request>
       </transaction>
 
+      <transaction name="delete_event">
+        <request subst="true">
+          <http
+            url='/events/%%_created_user_id%%'
+            version='1.1'
+            method='GET'
+            contents='_method=DELETE'>
+            </http>
+        </request>
+      </transaction>
+
       <transaction name="delete_user">
         <request subst="true">
           <http
@@ -212,17 +221,6 @@
             method='POST'
             contents='_method=DELETE'
             >
-            </http>
-        </request>
-      </transaction>
-      
-      <transaction name="delete_event">
-        <request subst="true">
-          <http
-            url='/events/%%_created_user_id%%'
-            version='1.1'
-            method='GET'
-            contents='_method=DELETE'>
             </http>
         </request>
       </transaction>
