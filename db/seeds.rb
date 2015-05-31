@@ -21,9 +21,9 @@ User.create!(
 number_of_events.times do |x|
 	Event.create!(
 	name: 'Test Event' +  x.to_s,
-	location: Faker::Address.city,
-	start_time: Time.now,
-	end_time: Time.now, 
+	location: 'New York',
+	start_time: Time.new(2016),
+	end_time: Time.new(2020), 
   	description: Faker::Hacker.say_something_smart
   )
 end

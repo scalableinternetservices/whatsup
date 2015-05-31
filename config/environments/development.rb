@@ -40,5 +40,5 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
   
   # so uploaded images show up
-  config.serve_static_assets  = true
+  config.serve_static_files  = true
 end
