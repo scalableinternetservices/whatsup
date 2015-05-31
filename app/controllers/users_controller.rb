@@ -27,10 +27,18 @@ class UsersController < ApplicationController
     else
       @user = current_user
       @lat = Rails.cache.fetch("latitude_user_#{@user.id}", :expires_in => 1.hours) do 
-        request.location.latitude
+        if request.location != nil 
+          request.location.latitude
+        else
+          0
+        end
       end
       @lon = Rails.cache.fetch("longitude_user_#{@user.id}", :expires_in => 1.hours) do
-        request.location.longitude
+        if request.location != nil 
+          request.location.longitude
+        else
+          0
+        end
       end
       
       temp_events = nil
