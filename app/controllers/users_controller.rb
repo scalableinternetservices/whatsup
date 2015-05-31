@@ -26,19 +26,27 @@ class UsersController < ApplicationController
       redirect_to action: "new"
     else
       @user = current_user
-      @lat = Rails.cache.fetch("latitude_user_#{@user.id}", :expires_in => 1.hours) do 
-        if request.location != nil 
+      
+      Rails.cache.cleanup
+      
+      if Rails.cache.exist?("latitude_user_#{@user.id}", :expires_in => 1.hours) #return what was in the cache if something was there
+        @lat = Rails.cache.fetch("latitude_user_#{@user.id}", :expires_in => 1.hours)
+      elsif request.location != nil #store the location if it is available but not in the cache
+        @lat = Rails.cache.fetch("latitude_user_#{@user.id}", :expires_in => 1.hours) do
           request.location.latitude
-        else
-          0
         end
+      else
+        @lat = 0 #rare case: set latitude to 0
       end
-      @lon = Rails.cache.fetch("longitude_user_#{@user.id}", :expires_in => 1.hours) do
-        if request.location != nil 
+      
+      if Rails.cache.exist?("longitude_user_#{@user.id}", :expires_in => 1.hours) #return what was in the cache if something was there
+        @lon = Rails.cache.fetch("longitude_user_#{@user.id}", :expires_in => 1.hours)
+      elsif request.location != nil #store the location if it is available but not in the cache
+        @lon = Rails.cache.fetch("longitude_user_#{@user.id}", :expires_in => 1.hours) do
           request.location.longitude
-        else
-          0
         end
+      else
+        @lon = 0 #rare case: set longitude to 0
       end
       
       temp_events = nil
