@@ -20,30 +20,26 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = current_user
-    @result = request.safe_location
-    
-    temp_events = Event.all
-    
-    if params[:location].present?
-      temp_events = Event.near(params[:location], 50).limit(15)
-    elsif @result != nil
-      temp_events = Event.near([@result.latitude,@result.longitude],20).limit(15)
-    end
-
-    if params[:event_categories].present? and params[:event_categories].length != 0
-      temp_events = temp_events.joins(:event_categories).where('event_categories.category in (?)', params[:event_categories]).uniq
-      
-    end
-    
-    @near_me = temp_events
- 
-    if (logged_in? && params[:id].to_s != @user.id.to_s)
-      redirect_to action: "show", id: @user.id
+    if (logged_in? && params[:id].to_s != current_user.id.to_s)
+      redirect_to action: "show", id: current_user.id
     elsif (!logged_in?)
       redirect_to action: "new"
     else
-      @user = User.find(params[:id])
+      @result = request.safe_location
+      
+      temp_events = Event.all
+      
+      if params[:location].present?
+        temp_events = Event.near(params[:location], 50).limit(15)
+      elsif @result != nil
+        temp_events = Event.near([@result.latitude,@result.longitude],50).limit(15)
+      end
+  
+      if params[:event_categories].present? and params[:event_categories].length != 0
+        temp_events = temp_events.joins(:event_categories).where('event_categories.category in (?)', params[:event_categories]).uniq
+      end
+      
+      @near_me = temp_events
     end
   end
 
