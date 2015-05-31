@@ -36,7 +36,7 @@ class UsersController < ApplicationController
       temp_events = nil
       
       if params[:location].present?
-        temp_events = Rails.cache.fetch("events_near_param_#{params[:location]}", :expires_in => 5.minutes) do
+        temp_events = Rails.cache.fetch("events_near_location_#{params[:location]}", :expires_in => 5.minutes) do
           Event.near(params[:location], 50).limit(15)
         end
       else  
