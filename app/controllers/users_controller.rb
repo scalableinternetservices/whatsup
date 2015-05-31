@@ -20,31 +20,37 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = current_user
-    @lat = request.location.latitude
-    @lon = request.location.longitude
-    
-    temp_events = nil
-    
-    if params[:location].present?
-      temp_events = Event.near(params[:location], 50).limit(15)
-    else  
-      temp_events = Event.near([@lat,@lon],20).limit(15)
-    end
-
-    if params[:event_categories].present? and params[:event_categories].length != 0
-      temp_events = temp_events.joins(:event_categories).where('event_categories.category in (?)', params[:event_categories]).uniq
-      
-    end
-    
-    @near_me = temp_events
- 
-    if (logged_in? && params[:id].to_s != @user.id.to_s)
-      redirect_to action: "show", id: @user.id
+    if (logged_in? && params[:id].to_s != current_user.id.to_s)
+      redirect_to action: "show", id: current_user.id
     elsif (!logged_in?)
       redirect_to action: "new"
     else
-      @user = User.find(params[:id])
+      @user = current_user
+      @lat = Rails.cache.fetch("latitude_user_#{@user.id}", :expires_in => 1.hours) do 
+        request.location.latitude
+      end
+      @lon = Rails.cache.fetch("longitude_user_#{@user.id}", :expires_in => 1.hours) do
+        request.location.longitude
+      end
+      
+      temp_events = nil
+      
+      if params[:location].present?
+        temp_events = Rails.cache.fetch("events_near_param_#{params[:location]}", :expires_in => 5.minutes) do
+          Event.near(params[:location], 50).limit(15)
+        end
+      else  
+        temp_events = Rails.cache.fetch("events_near_lat_#{@lat}_lon_#{@lon}", :expires_in => 5.minutes) do
+          Event.near([@lat,@lon], 50).limit(15)
+        end
+      end
+  
+      if params[:event_categories].present? and params[:event_categories].length != 0
+        temp_events = temp_events.joins(:event_categories).where('event_categories.category in (?)', params[:event_categories]).uniq
+        
+      end
+      
+      @near_me = temp_events
     end
   end
 
