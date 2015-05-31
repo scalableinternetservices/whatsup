@@ -20,13 +20,8 @@ class UsersController < ApplicationController
   end
 
   def show
-<<<<<<< HEAD
-    if (logged_in? && params[:id].to_s != @user.id.to_s)
-      redirect_to action: "show", id: @user.id
-=======
     if (logged_in? && params[:id].to_s != current_user.id.to_s)
       redirect_to action: "show", id: current_user.id
->>>>>>> branch 'homepageOptimization' of https://github.com/scalableinternetservices/whatsup.git
     elsif (!logged_in?)
       redirect_to action: "new"
     else
@@ -34,7 +29,6 @@ class UsersController < ApplicationController
       
       Rails.cache.cleanup
       
-<<<<<<< HEAD
       if Rails.cache.exist?("result_user_#{@user.id}", :expires_in => 1.hours) #return what was in the cache if something was there
         @result = Rails.cache.fetch("result_user_#{@user.id}", :expires_in => 1.hours)
       elsif request.safe_location != nil #store the location if it is available but not in the cache
@@ -54,37 +48,6 @@ class UsersController < ApplicationController
       elsif @result != nil
         temp_events = Rails.cache.fetch("events_near_lat_#{@result.latitude}_lon_#{@result.longitude}", :expires_in => 5.minutes) do
           Event.near([@result.latitude,@result.latitude], 50).limit(15)
-=======
-      if Rails.cache.exist?("latitude_user_#{@user.id}", :expires_in => 1.hours) #return what was in the cache if something was there
-        @lat = Rails.cache.fetch("latitude_user_#{@user.id}", :expires_in => 1.hours)
-      elsif request.safe_location != nil #store the location if it is available but not in the cache
-        @lat = Rails.cache.fetch("latitude_user_#{@user.id}", :expires_in => 1.hours) do
-          request.safe_location.latitude
-        end
-      else
-        @lat = 0 #rare case: set latitude to 0
-      end
-      
-      if Rails.cache.exist?("longitude_user_#{@user.id}", :expires_in => 1.hours) #return what was in the cache if something was there
-        @lon = Rails.cache.fetch("longitude_user_#{@user.id}", :expires_in => 1.hours)
-      elsif request.location != nil #store the location if it is available but not in the cache
-        @lon = Rails.cache.fetch("longitude_user_#{@user.id}", :expires_in => 1.hours) do
-          request.location.longitude
-        end
-      else
-        @lon = 0 #rare case: set longitude to 0
-      end
-      
-      temp_events = nil
-      
-      if params[:location].present?
-        temp_events = Rails.cache.fetch("events_near_location_#{params[:location]}", :expires_in => 5.minutes) do
-          Event.near(params[:location], 50).limit(15)
-        end
-      else  
-        temp_events = Rails.cache.fetch("events_near_lat_#{@lat}_lon_#{@lon}", :expires_in => 5.minutes) do
-          Event.near([@lat,@lon], 50).limit(15)
->>>>>>> branch 'homepageOptimization' of https://github.com/scalableinternetservices/whatsup.git
         end
       end
   
