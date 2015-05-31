@@ -20,7 +20,7 @@ module UsersHelper
     session.delete(:user_id)
     @current_user = nil
   end
-  
+ 
   def getComments(event_id)
     Comment.where(event_id: event_id).order(created_at: :asc)
   end

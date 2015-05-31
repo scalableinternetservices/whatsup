@@ -6,19 +6,20 @@
         <li class="list-group-item">You have no notifications!</li>
       <% end %>
       <% @notifications .each do |n| %>
-        <li class="list-group-item">
-          <div class="row">
-            <div class="col-md-9">
-              <%= link_to controller: "events", action: "show", id: n.event_id do %>
-    		  	    <%= n.message %>
-    		      <% end %>
+        <% cache(cache_key_notification(n)) do %>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-md-9">
+                <%= link_to controller: "events", action: "show", id: n.event_id do %>
+      		  	    <%= n.message %>
+      		      <% end %>
+              </div>
+              <div class="col-md-3" style="text-align: right">
+                <small><%= format_time(n.created_at) %></small>
+              </div>
             </div>
-            <div class="col-md-3" style="text-align: right">
-              <small><%= format_time(n.created_at) %></small>
-            </div>
-          </div>
-          
-		    </li>
+  		    </li>
+        <% end %>
       <% end %>
     </ul>
   </div>
