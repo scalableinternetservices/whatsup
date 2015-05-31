@@ -32,7 +32,7 @@ class UsersController < ApplicationController
       if Rails.cache.exist?("result_user_#{@user.id}", :expires_in => 1.hours) #return what was in the cache if something was there
         @result = Rails.cache.fetch("result_user_#{@user.id}", :expires_in => 1.hours)
       elsif request.safe_location != nil #store the location if it is available but not in the cache
-        result = Rails.cache.fetch("result_user_#{@user.id}", :expires_in => 1.hours) do
+        @result = Rails.cache.fetch("result_user_#{@user.id}", :expires_in => 1.hours) do
           request.safe_location
         end
       else
