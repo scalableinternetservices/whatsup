@@ -45,9 +45,9 @@ class UsersController < ApplicationController
         temp_events = Rails.cache.fetch("events_near_location_#{params[:location]}", :expires_in => 5.minutes) do
           Event.near(params[:location], 50).limit(15)
         end
-      else  
-        temp_events = Rails.cache.fetch("events_near_lat_#{@lat}_lon_#{@lon}", :expires_in => 5.minutes) do
-          Event.near([@lat,@lon], 50).limit(15)
+      elsif @result != nil
+        temp_events = Rails.cache.fetch("events_near_lat_#{@result.latitude}_lon_#{@result.longitude}", :expires_in => 5.minutes) do
+          Event.near([@result.latitude,@result.latitude], 50).limit(15)
         end
       end
   
