@@ -67,9 +67,12 @@
 
 var lat = parseFloat(<%= @near_me[0].latitude.to_s %>);
 var lon = parseFloat(<%= @near_me[0].longitude.to_s %>);
-<% else %>
+<% elsif @result != nil %>
 var lat = parseFloat(<%=@result.latitude%>);
 var lon = parseFloat(<%=@result.longitude%>);
+<% else %>
+var lat = 0.0
+var lon = 0.0
 <% end %>
 
 var map;
