@@ -3,7 +3,3 @@ sudo yum install -y patch
 sudo yum install -y sqlite-devel
 sudo yum install -y mysql-devel
 sudo yum install -y ImageMagick
-
-mysqladmin -u root -p create library_develop
-mysqladmin -u root -p create library_production
-mysqladmin -u root -p create library_test
