@@ -25,18 +25,35 @@ class UsersController < ApplicationController
     elsif (!logged_in?)
       redirect_to action: "new"
     else
-      @result = request.safe_location
+      @user = current_user
       
-      temp_events = Event.all
+      Rails.cache.cleanup
+      
+      if Rails.cache.exist?("result_user_#{@user.id}", :expires_in => 1.hours) #return what was in the cache if something was there
+        @result = Rails.cache.fetch("result_user_#{@user.id}", :expires_in => 1.hours)
+      elsif request.safe_location != nil #store the location if it is available but not in the cache
+        @result = Rails.cache.fetch("result_user_#{@user.id}", :expires_in => 1.hours) do
+          request.safe_location
+        end
+      else
+        @result = nil #rare case: set location to nil
+      end
+      
+      temp_events = nil
       
       if params[:location].present?
-        temp_events = Event.near(params[:location], 50).limit(15)
+        temp_events = Rails.cache.fetch("events_near_location_#{params[:location]}", :expires_in => 5.minutes) do
+          Event.near(params[:location], 50).limit(15)
+        end
       elsif @result != nil
-        temp_events = Event.near([@result.latitude,@result.longitude],50).limit(15)
+        temp_events = Rails.cache.fetch("events_near_lat_#{@result.latitude}_lon_#{@result.longitude}", :expires_in => 5.minutes) do
+          Event.near([@result.latitude,@result.latitude], 50).limit(15)
+        end
       end
   
       if params[:event_categories].present? and params[:event_categories].length != 0
         temp_events = temp_events.joins(:event_categories).where('event_categories.category in (?)', params[:event_categories]).uniq
+        
       end
       
       @near_me = temp_events
