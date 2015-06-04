@@ -9,7 +9,7 @@
 #Documentation for Faker: http://www.rubydoc.info/github/stympy/faker/Faker
 require 'faker'
 
-number_of_events = 0
+number_of_events = 100
 
 User.create!(
 	name: Faker::Name.name,
@@ -19,11 +19,16 @@ User.create!(
 	)
 
 number_of_events.times do |x|
-	Event.create!(
-	name: 'Test Event' +  x.to_s,
-	location: Faker::Address.city,
-	start_time: Time.now,
-	end_time: Time.now, 
-  	description: Faker::Hacker.say_something_smart
-  )
+	if Event.count < number_of_events
+		Event.create!(
+		name: 'Test Event' +  x.to_s,
+		location: 'New York',
+		start_time: Time.new(2016),
+		end_time: Time.new(2020),
+	  	description: Faker::Hacker.say_something_smart
+	  )
+		# sleep so that geocoder API doesn't complain about too many
+		# requests per second
+		sleep 1
+	end
 end
